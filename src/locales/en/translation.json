@@ -3,7 +3,7 @@
     "notFound": "Page not found",
     "loading": "Loading..."
   },
-  "title": {
+  "titles": {
     "characterList": "Characters",
     "landing": "Landing",
     "login": "Login",

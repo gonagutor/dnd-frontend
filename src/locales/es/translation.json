@@ -3,7 +3,7 @@
     "notFound": "No se ha encontrado la página",
     "loading": "Cargando..."
   },
-  "title": {
+  "titles": {
     "characterList": "Personajes",
     "landing": "Inicio",
     "login": "Iniciar Sesión",
