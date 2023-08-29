@@ -4,12 +4,14 @@ import diceLoaderImg from '../../assets/dice_loader.webp';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
-export function NotFoundPage() {
+export function NotFound() {
+  const { t: titleTranslation } = useTranslation('titles');
   const { t } = useTranslation('ui');
+
   return (
     <>
       <Helmet>
-        <title>404 Page Not Found</title>
+        <title>{titleTranslation('notFound')}</title>
         <meta name="description" content="Page not found" />
       </Helmet>
       <Wrapper>

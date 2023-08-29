@@ -15,7 +15,7 @@ export function CharacterView() {
   return (
     <>
       <Helmet>
-        <title>HomePage</title>
+        <title>{character}</title>
         <meta name="description" content="A Boilerplate application homepage" />
       </Helmet>
       <span>My HomePage</span>

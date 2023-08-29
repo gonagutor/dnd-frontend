@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<App /> should render and match the snapshot 1`] = `
+<BrowserRouter>
+  <Helmet
+    defaultTitle="D&D"
+    defer={true}
+    encodeSpecialCharacters={true}
+    htmlAttributes={
+      Object {
+        "lang": undefined,
+      }
+    }
+    prioritizeSeoTags={false}
+    titleTemplate="%s - D&D"
+  >
+    <meta
+      content="A D&D character administration site"
+      name="description"
+    />
+  </Helmet>
+  <Routes>
+    <Route
+      element={<Unknown />}
+      path="/"
+    />
+    <Route
+      element={<Unknown />}
+      path="/login"
+    />
+    <Route
+      element={<Unknown />}
+      path="/register"
+    />
+    <Route
+      element={<Unknown />}
+      path="/character"
+    />
+    <Route
+      element={<Unknown />}
+      path="/character/:characterId"
+    />
+    <Route
+      element={<Unknown />}
+      path="*"
+    />
+  </Routes>
+  <Memo(l) />
+</BrowserRouter>
+`;
