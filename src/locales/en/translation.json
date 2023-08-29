@@ -1,7 +1,16 @@
 {
   "ui": {
     "notFound": "Page not found",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "landing": {
+      "title": "DND",
+      "login": "Login",
+      "register": "Register",
+      "orDivider": "- or -",
+      "characterName": ["Balr", "Damus"]
+    },
+    "barbarian": "Barbarian",
+    "druid": "Druid"
   },
   "titles": {
     "characterList": "Characters",

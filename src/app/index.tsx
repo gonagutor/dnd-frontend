@@ -39,6 +39,7 @@ export function App() {
 
         <Route path="*" element={<NotFound />} />
       </Routes>
+
       <GlobalStyle />
     </BrowserRouter>
   );

@@ -1,7 +1,16 @@
 {
   "ui": {
     "notFound": "No se ha encontrado la página",
-    "loading": "Cargando..."
+    "loading": "Cargando...",
+    "landing": {
+      "title": "DND",
+      "login": "Inicia Sesión",
+      "register": "Regístrate",
+      "orDivider": "- o -",
+      "characterName": ["Balr", "Damus"]
+    },
+    "barbarian": "Bárbaro",
+    "druid": "Druída"
   },
   "titles": {
     "characterList": "Personajes",
