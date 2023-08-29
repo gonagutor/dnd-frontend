@@ -1,9 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components/macro';
-import { P } from './P';
+import diceLoaderImg from '../../assets/dice_loader.webp';
 import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 
 export function NotFoundPage() {
+  const { t } = useTranslation('ui');
   return (
     <>
       <Helmet>
@@ -13,12 +15,9 @@ export function NotFoundPage() {
       <Wrapper>
         <Title>
           4
-          <span role="img" aria-label="Crying Face">
-            😢
-          </span>
-          4
+          <Image src={diceLoaderImg} alt="spinning wireframe dice" />4
         </Title>
-        <P>Page not found.</P>
+        <P>{t('notFound')}</P>
       </Wrapper>
     </>
   );
@@ -31,15 +30,24 @@ const Wrapper = styled.div`
   justify-content: center;
   flex-direction: column;
   min-height: 320px;
+  background-color: black;
 `;
 
 const Title = styled.div`
   margin-top: -8vh;
   font-weight: bold;
-  color: black;
+  color: white;
   font-size: 3.375rem;
+`;
 
-  span {
-    font-size: 3.125rem;
-  }
+const Image = styled.img`
+  mix-blend-mode: difference;
+  height: 8rem;
+`;
+
+const P = styled.p`
+  font-size: 1rem;
+  line-height: 1.5;
+  color: white;
+  margin: 0.625rem 0 1.5rem 0;
 `;

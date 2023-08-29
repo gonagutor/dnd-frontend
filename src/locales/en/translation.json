@@ -1,3 +1,6 @@
 {
-  "title": "welcome"
+  "ui": {
+    "notFound": "Page not found",
+    "loading": "Loading..."
+  }
 }
