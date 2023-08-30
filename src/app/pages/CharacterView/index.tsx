@@ -6,7 +6,9 @@ import { useParams } from 'react-router-dom';
 
 export function CharacterView() {
   const { characterId } = useParams();
-  const character = useGetCharacter(characterId!);
+  const { getCharacter, character, error, pending } = useGetCharacter(
+    characterId!,
+  );
 
   if (!character) {
     return <Loader />;
@@ -15,7 +17,7 @@ export function CharacterView() {
   return (
     <>
       <Helmet>
-        <title>{character}</title>
+        <title>tests</title>
         <meta name="description" content="A Boilerplate application homepage" />
       </Helmet>
       <span>My HomePage</span>

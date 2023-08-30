@@ -19,7 +19,7 @@ export function Landing() {
       </Helmet>
       <Container>
         <TitleRow>
-          <Title>{t('landing.title')}</Title>
+          <Title>{t('title')}</Title>
         </TitleRow>
         <ContentColumn>
           <CharacterContainer>

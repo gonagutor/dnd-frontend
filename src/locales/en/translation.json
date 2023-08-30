@@ -2,12 +2,26 @@
   "ui": {
     "notFound": "Page not found",
     "loading": "Loading...",
+    "title": "DND",
     "landing": {
-      "title": "DND",
       "login": "Login",
       "register": "Register",
       "orDivider": "- or -",
       "characterName": ["Balr", "Damus"]
+    },
+    "register": {
+      "title": "Register",
+      "nameLabel": "Name",
+      "namePlaceholder": "Name",
+      "surnameLabel": "Surname",
+      "surnamePlaceholder": "Surname",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Email",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Password",
+      "repeatPasswordLabel": "Repeat your password",
+      "repeatPasswordPlaceholder": "Repeat your password",
+      "submit": "Register"
     },
     "barbarian": "Barbarian",
     "druid": "Druid"

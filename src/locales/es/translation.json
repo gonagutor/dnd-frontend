@@ -2,12 +2,36 @@
   "ui": {
     "notFound": "No se ha encontrado la página",
     "loading": "Cargando...",
+    "title": "DND",
     "landing": {
-      "title": "DND",
       "login": "Inicia Sesión",
       "register": "Regístrate",
       "orDivider": "- o -",
       "characterName": ["Balr", "Damus"]
+    },
+    "register": {
+      "title": "Regístrate",
+      "nameLabel": "Nombre",
+      "namePlaceholder": "Nombre",
+      "surnameLabel": "Apellidos",
+      "surnamePlaceholder": "Apellidos",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Email",
+      "passwordLabel": "Contraseña",
+      "passwordPlaceholder": "Contraseña",
+      "repeatPasswordLabel": "Repite la contraseña",
+      "repeatPasswordPlaceholder": "Repite la contraseña",
+      "submit": "Registrarse",
+
+      "fieldCannotBeEmpty": "Este campo no puede estar vacío",
+      "fieldTooLong": "No puede ser tan largo",
+      "notAValidEmail": "No es un email válido",
+      "passwordNotValid": "La contraseña debe contener al menos 8 carácteres, una letra y un número",
+      "passwordsNotEqual": "Las contraseñas no coinciden",
+
+      "congratulations": "¡Enhorabuena!",
+      "registeredSuccessfully": "Te has registrado correctamente",
+      "youWillBeRedirectedToLogin": "En unos segundos serás redirigido a la pagina de inicio de sesión"
     },
     "barbarian": "Bárbaro",
     "druid": "Druída"
@@ -18,5 +42,9 @@
     "login": "Iniciar Sesión",
     "notFound": "404",
     "register": "Registrarse"
+  },
+  "errors": {
+    "BAD_EMAIL": "Este email ya está registrado",
+    "COULD_NOT_SEND_EMAIL": "Debido a un error interno no se ha podido enviar el correo de confirmación. Por favor, intentalo más tarde"
   }
 }
