@@ -30,8 +30,17 @@
       "passwordsNotEqual": "Las contraseñas no coinciden",
 
       "congratulations": "¡Enhorabuena!",
-      "registeredSuccessfully": "Te has registrado correctamente",
+      "registeredSuccessfully": "Te has registrado correctamente\nComprueba tu email para activar tu cuenta",
       "youWillBeRedirectedToLogin": "En unos segundos serás redirigido a la pagina de inicio de sesión"
+    },
+    "login": {
+      "title": "Iniciar sesión",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Email",
+      "passwordLabel": "Contraseña",
+      "passwordPlaceholder": "Contraseña",
+      "rememberMe": "Recuérdame",
+      "submit": "Iniciar sesión"
     },
     "barbarian": "Bárbaro",
     "druid": "Druída"
@@ -45,6 +54,7 @@
   },
   "errors": {
     "BAD_EMAIL": "Este email ya está registrado",
-    "COULD_NOT_SEND_EMAIL": "Debido a un error interno no se ha podido enviar el correo de confirmación. Por favor, intentalo más tarde"
+    "COULD_NOT_SEND_EMAIL": "Debido a un error interno no se ha podido enviar el correo de confirmación. Por favor, intentalo más tarde",
+    "EMAIL_NOT_VERIFIED": "Tu usuario no ha sido verficado. Comprueba tu correo para verificar tu cuenta"
   }
 }

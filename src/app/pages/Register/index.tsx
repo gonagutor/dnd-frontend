@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import RegistrationComplete from './components/RegistrationComplete';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$$/;
 const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -66,9 +68,9 @@ export function Register() {
     errors.password = checkEmptyOrTooLong(password);
     errors.repeatPassword = checkEmptyOrTooLong(repeatPassword);
 
-    if (passwordError !== undefined && EMAIL_REGEX.test(password))
+    if (errors.email !== undefined && EMAIL_REGEX.test(password))
       errors.email = t('register.notAValidEmail');
-    if (passwordError !== undefined && PASSWORD_REGEX.test(email))
+    if (errors.password !== undefined && PASSWORD_REGEX.test(email))
       errors.password = t('register.passwordNotValid');
     if (password !== repeatPassword)
       errors.repeatPassword = t('register.passwordsNotEqual');
@@ -109,7 +111,9 @@ export function Register() {
       {completed ? <RegistrationComplete /> : null}
       <Container>
         <TitleRow>
-          <Title>{t('title')}</Title>
+          <BackButton onClick={() => navigate(-1)}>
+            <FontAwesomeIcon size="2x" icon={faChevronLeft} />
+          </BackButton>
           <Title>{t('register.title')}</Title>
         </TitleRow>
         <LoginForm onSubmit={onSubmit}>
@@ -210,6 +214,14 @@ const TitleRow = styled.div`
   color: var(--text-lighter);
 `;
 
+const BackButton = styled.button`
+  width: 3rem;
+  height: 3rem;
+  background-color: transparent;
+  border: none;
+  color: var(--text-light);
+`;
+
 const Title = styled.h1`
   text-shadow: 0px 0px 4px var(--text-lightest);
   margin: 0;
@@ -241,6 +253,12 @@ const Input = styled.input<{ error?: boolean }>`
 
   font-size: 1rem;
   padding: 1rem;
+
+  transition: box-shadow 150ms;
+  :focus {
+    box-shadow: 0 0 4px 4px var(--text-lightest);
+    outline: none;
+  }
 
   ${({ error }: any) =>
     error

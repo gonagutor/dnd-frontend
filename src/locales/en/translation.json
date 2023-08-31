@@ -21,7 +21,26 @@
       "passwordPlaceholder": "Password",
       "repeatPasswordLabel": "Repeat your password",
       "repeatPasswordPlaceholder": "Repeat your password",
-      "submit": "Register"
+      "submit": "Register",
+
+      "fieldCannotBeEmpty": "This field cannot be empty",
+      "fieldTooLong": "This field is too long",
+      "notAValidEmail": "This is not a valid email",
+      "passwordNotValid": "Your password must contain at least 8 characters, a letter and a number",
+      "passwordsNotEqual": "Passwords are not the same",
+
+      "congratulations": "Congratulations!",
+      "registeredSuccessfully": "You have successfully registered\nCheck your email to activate your account",
+      "youWillBeRedirectedToLogin": "In a few seconds you will be redirected to the login page"
+    },
+    "login": {
+      "title": "Login",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Email",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Password",
+      "rememberMe": "Remember me",
+      "submit": "Login"
     },
     "barbarian": "Barbarian",
     "druid": "Druid"
@@ -32,5 +51,10 @@
     "login": "Login",
     "notFound": "404",
     "register": "Register"
+  },
+  "errors": {
+    "BAD_EMAIL": "This email is already registered",
+    "COULD_NOT_SEND_EMAIL": "We could not send the verification email. Try again later",
+    "EMAIL_NOT_VERIFIED": "Your user has not been verified. Check your email to verify your account"
   }
 }
