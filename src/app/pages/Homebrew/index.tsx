@@ -1,10 +1,12 @@
 import * as React from 'react';
 import Navbar from 'app/components/Navbar';
+import Title from 'app/components/Title';
 
 export function Homebrew() {
   return (
     <div>
-      <Navbar></Navbar>
+      <Title />
+      <Navbar />
     </div>
   );
 }
