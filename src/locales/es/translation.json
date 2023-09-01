@@ -43,7 +43,13 @@
       "submit": "Iniciar sesión"
     },
     "barbarian": "Bárbaro",
-    "druid": "Druída"
+    "druid": "Druída",
+    "dashboard": {},
+    "flaskIconAlt": "frasco",
+    "peopleIconAlt": "personas",
+    "houseIconAlt": "casa",
+    "bookIconAlt": "libro",
+    "settingIconAlt": "ajustes"
   },
   "titles": {
     "characterList": "Personajes",
