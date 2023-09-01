@@ -1,6 +1,6 @@
 import { lazyLoad } from 'utils/loadable';
 
-export const CharacterList = lazyLoad(
+export const Homebrew = lazyLoad(
   () => import('./index'),
-  module => module.CharacterList,
+  module => module.Homebrew,
 );
