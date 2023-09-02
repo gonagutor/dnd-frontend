@@ -1,3 +1,3 @@
-import AuthAction from './AuthAction';
+import { AuthAction } from './AuthAction';
 
 export type { AuthAction };

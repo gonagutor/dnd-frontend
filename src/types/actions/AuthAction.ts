@@ -1,6 +1,15 @@
 import AuthActions from 'store/actions/auth';
-import { AuthState } from '../states/AuthState';
+import { User } from 'types/User';
 
-type AuthAction = { type: keyof typeof AuthActions; payload: AuthState };
-
-export default AuthAction;
+export type AuthAction = {
+  type: keyof typeof AuthActions;
+  payload: {
+    email?: string;
+    password?: string;
+    user?: User;
+    refreshToken?: string;
+    accessToken?: string;
+    rememberMe?: boolean;
+    error?: string;
+  };
+};

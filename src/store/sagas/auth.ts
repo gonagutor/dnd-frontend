@@ -1,30 +1,37 @@
-import { AxiosError, AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import AuthActions from 'store/actions/auth';
 import { AuthAction } from 'types/actions';
 import { request } from 'utils/axios';
+import { saveCredentials, clearCredentials } from 'utils/credentials';
 
 const login = (email: string, password: string) =>
   request.post('/login', { email, password });
 
 function* loginSaga(action: AuthAction) {
-  if (
-    !action.payload.login ||
-    !action.payload.login.password ||
-    !action.payload.login.email
-  ) {
-    console.log('Saga login called with incorrect payload');
+  const { email, password, rememberMe } = action.payload;
+  if (!email || !password) {
+    console.log('Badly implemented login Saga', action);
     return yield put({
       type: AuthActions.LOGIN_FAILURE,
-      payload: { error: 'IMPLEMENTATION_ERROR' },
+      payload: {
+        error: 'BAD_IMPLEMENTATION',
+      },
     });
   }
 
   try {
     const response: AxiosResponse<any, any> = yield call(
       login,
-      action.payload.login.email,
-      action.payload.login.password,
+      email,
+      password,
+    );
+
+    saveCredentials(
+      response.data.data.accessToken,
+      response.data.data.refreshToken,
+      response.data.data.user,
+      rememberMe,
     );
 
     yield put({
@@ -35,10 +42,11 @@ function* loginSaga(action: AuthAction) {
         user: response.data.data.user,
       },
     });
-  } catch (e: any | AxiosError) {
+  } catch (e: any) {
+    clearCredentials();
     yield put({
       type: AuthActions.LOGIN_FAILURE,
-      error: e.response?.data.error || 'CONNECTION_ERROR',
+      payload: { error: e.response?.data.error || 'CONNECTION_ERROR' },
     });
   }
 }
@@ -56,8 +64,13 @@ const refreshToken = (refreshToken: string) =>
 
 function* needsRefreshSaga(action: AuthAction) {
   if (!action.payload.refreshToken) {
-    console.log('Saga needsRefresh called with incorrect payload');
-    return;
+    console.log('Badly implemented login Saga', { action });
+    return yield put({
+      type: AuthActions.LOGIN_FAILURE,
+      payload: {
+        error: 'BAD_IMPLEMENTATION',
+      },
+    });
   }
 
   try {
@@ -72,7 +85,7 @@ function* needsRefreshSaga(action: AuthAction) {
         accessToken: response.data.data.accessToken,
       },
     });
-  } catch (e: any | AxiosError) {
+  } catch (e: any) {
     yield put({
       type: AuthActions.REFRESH_TOKEN_REVOKED,
       error: e.response?.data.error || 'CONNECTION_ERROR',

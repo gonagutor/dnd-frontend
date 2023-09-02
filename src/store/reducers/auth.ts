@@ -1,13 +1,35 @@
 import AuthActions from 'store/actions/auth';
 import { AuthAction } from 'types/actions';
 import { AuthState } from 'types/states';
+import {
+  clearCredentials,
+  getAccessToken,
+  getRefreshToken,
+  getUser,
+} from 'utils/credentials';
 
-const defaultAuthState: AuthState = {
-  isLoggedIn: false,
+const generateDefaultState = (): AuthState => {
+  const user = getUser();
+  const accessToken = getAccessToken();
+  const refreshToken = getRefreshToken();
+
+  if (user && accessToken && refreshToken) {
+    return {
+      isLoggedIn: true,
+      user,
+      accessToken,
+      refreshToken,
+    };
+  }
+
+  clearCredentials();
+  return {
+    isLoggedIn: false,
+  };
 };
 
 const authReducer = (
-  state = defaultAuthState,
+  state = generateDefaultState(),
   action: AuthAction,
 ): AuthState => {
   switch (action.type) {

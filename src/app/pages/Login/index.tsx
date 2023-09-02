@@ -70,7 +70,7 @@ export function Login() {
     if (!isCorrect) return;
     dispatch({
       type: AuthActions.LOGIN,
-      payload: { login: { email, password, rememberMe } },
+      payload: { email, password, rememberMe },
     });
   };
 
