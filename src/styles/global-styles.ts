@@ -19,7 +19,6 @@ export const GlobalStyle = createGlobalStyle`
     --background-light-translucent: #deca9d99;
     --background-lightest: #b1ada6ff;
     --background-lightest-translucent: #b1ada699;
-    --background-selected: #3620163d;
 
     --loader: #362016;
     --loader-text: #e7d8b0ff;

@@ -2,12 +2,14 @@ import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Checkbox from 'app/components/Checkbox';
 import Loader from 'app/components/Loader';
-import useLogin from 'app/hooks/useLogin';
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import AuthActions from 'store/actions/auth';
 import styled from 'styled-components';
+import { RootState } from 'types';
 
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$$/;
 
@@ -15,7 +17,10 @@ export function Login() {
   const { t: titleTranslation } = useTranslation('titles');
   const { t } = useTranslation('ui');
   const navigate = useNavigate();
-  const { login, completed, error, pending } = useLogin();
+  const dispatch = useDispatch();
+  const { pending, error, isLoggedIn } = useSelector(
+    (state: RootState) => state.auth,
+  );
 
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
@@ -63,12 +68,15 @@ export function Login() {
     const isCorrect = validateAll();
 
     if (!isCorrect) return;
-    login(email, password);
+    dispatch({
+      type: AuthActions.LOGIN,
+      payload: { login: { email, password, rememberMe } },
+    });
   };
 
   React.useEffect(() => {
-    if (completed) navigate('/dashboard', { replace: true });
-  }, [completed, navigate]);
+    if (isLoggedIn) navigate('/dashboard', { replace: true });
+  }, [isLoggedIn, navigate]);
 
   return (
     <>

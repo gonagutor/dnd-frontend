@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { GlobalStyle } from 'styles/global-styles';
@@ -15,6 +15,14 @@ import { Character } from './pages/Character/Loadable';
 import { Homebrew } from './pages/Homebrew/Loadable';
 import { Settings } from './pages/Settings/Loadable';
 import { Campaign } from './pages/Campaign/Loadable';
+import { useSelector } from 'react-redux';
+import { RootState } from 'types';
+
+const ProtectedRoute = ({ children }: { children: React.JSX.Element }) => {
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+
+  return isLoggedIn ? children : <Navigate to="/login" />;
+};
 
 export function App() {
   const { i18n } = useTranslation();
@@ -38,12 +46,54 @@ export function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
-        <Route path="/character" element={<Character />} />
-        <Route path="/character/:characterId" element={<CharacterView />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/homebrew" element={<Homebrew />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/campaign" element={<Campaign />} />
+        <Route
+          path="/character"
+          element={
+            <ProtectedRoute>
+              <Character />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/character/:characterId"
+          element={
+            <ProtectedRoute>
+              <CharacterView />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/homebrew"
+          element={
+            <ProtectedRoute>
+              <Homebrew />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/campaign"
+          element={
+            <ProtectedRoute>
+              <Campaign />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
