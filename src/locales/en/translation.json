@@ -43,7 +43,12 @@
       "submit": "Login"
     },
     "barbarian": "Barbarian",
-    "druid": "Druid"
+    "druid": "Druid",
+    "flaskIconAlt": "flask",
+    "peopleIconAlt": "characters",
+    "houseIconAlt": "home",
+    "bookIconAlt": "campaign",
+    "settingIconAlt": "settings"
   },
   "titles": {
     "characterList": "Characters",
