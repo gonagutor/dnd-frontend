@@ -52,6 +52,7 @@
   },
   "titles": {
     "characterList": "Characters",
+    "campaignList": "Campaigns",
     "landing": "Landing",
     "login": "Login",
     "notFound": "404",
