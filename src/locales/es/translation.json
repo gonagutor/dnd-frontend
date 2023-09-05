@@ -40,11 +40,19 @@
       "passwordLabel": "Contraseña",
       "passwordPlaceholder": "Contraseña",
       "rememberMe": "Recuérdame",
-      "submit": "Iniciar sesión"
+      "submit": "Iniciar sesión",
+      "forgotPassword": "¿Has olvidado la contraseña?"
+    },
+    "dashboard": {},
+    "emailValidation": {
+      "oops": "Oops, parece que se ha producido un error",
+      "couldNotValidate": "No se ha podido verficar tu correo",
+      "congratulations": "¡Enhorabuena!",
+      "validationComplete": "Tu correo ha sido validado",
+      "youMayCloseThisPage": "Ya puedes cerrar esta página"
     },
     "barbarian": "Bárbaro",
     "druid": "Druída",
-    "dashboard": {},
     "flaskIconAlt": "frasco",
     "peopleIconAlt": "personajes",
     "houseIconAlt": "casa",
@@ -61,6 +69,9 @@
   "errors": {
     "BAD_EMAIL": "Este email ya está registrado",
     "COULD_NOT_SEND_EMAIL": "Debido a un error interno no se ha podido enviar el correo de confirmación. Por favor, intentalo más tarde",
-    "EMAIL_NOT_VERIFIED": "Tu usuario no ha sido verficado. Comprueba tu correo para verificar tu cuenta"
+    "EMAIL_NOT_VERIFIED": "Tu usuario no ha sido verficado. Comprueba tu correo para verificar tu cuenta",
+    "EMAIL_ALREADY_VERIFIED": "Tu mail ya ha sido verificado",
+    "BAD_ACCESS_TOKEN": "El token es invalido. Puede que el token haya expirado",
+    "ERR_NETWORK": "Parece que estás desconectado"
   }
 }

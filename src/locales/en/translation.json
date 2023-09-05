@@ -40,7 +40,25 @@
       "passwordLabel": "Password",
       "passwordPlaceholder": "Password",
       "rememberMe": "Remember me",
-      "submit": "Login"
+      "submit": "Login",
+      "forgotPassword": "¿Forgot your password?"
+    },
+    "dashboard": {},
+    "emailValidation": {
+      "oops": "Oops, looks like there was an error",
+      "couldNotValidate": "Your mail could not be verified",
+      "congratulations": "Congratulations!",
+      "validationComplete": "Your email has been validated",
+      "youMayCloseThisPage": "You may now close this page"
+    },
+    "requestPasswordRecovery": {
+      "title": "Recuperación",
+      "emailLabel": "Email",
+      "emailPlaceholder": "Email",
+      "submit": "Send me a recovery email"
+    },
+    "redeemPasswordRecovery": {
+      "title": "Recuperación"
     },
     "barbarian": "Barbarian",
     "druid": "Druid",
@@ -55,11 +73,16 @@
     "landing": "Landing",
     "login": "Login",
     "notFound": "404",
-    "register": "Register"
+    "register": "Register",
+    "requestPasswordRecovery": "Recuperar contraseña",
+    "redeemPasswordRecovery": "Recuperar contraseña"
   },
   "errors": {
     "BAD_EMAIL": "This email is already registered",
     "COULD_NOT_SEND_EMAIL": "We could not send the verification email. Try again later",
-    "EMAIL_NOT_VERIFIED": "Your user has not been verified. Check your email to verify your account"
+    "EMAIL_NOT_VERIFIED": "Your user has not been verified. Check your email to verify your account",
+    "EMAIL_ALREADY_VERIFIED": "Your email has already been verified",
+    "BAD_ACCESS_TOKEN": "The provided token was incorrect. It may have expired",
+    "ERR_NETWORK": "It seems like you are not connected"
   }
 }

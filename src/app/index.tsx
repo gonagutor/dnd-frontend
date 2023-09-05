@@ -17,6 +17,9 @@ import { Settings } from './pages/Settings/Loadable';
 import { Campaign } from './pages/Campaign/Loadable';
 import { useSelector } from 'react-redux';
 import { RootState } from 'types';
+import ValidateEmail from './pages/ValidateEmail';
+import { RedeemPasswordRecovery } from './pages/RecoverPassword/Redeem';
+import { RequestPasswordRecovery } from './pages/RecoverPassword/Request';
 
 const ProtectedRoute = ({ children }: { children: React.JSX.Element }) => {
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
@@ -45,6 +48,15 @@ export function App() {
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/validate-email" element={<ValidateEmail />} />
+        <Route
+          path="/recover-password/request"
+          element={<RequestPasswordRecovery />}
+        />
+        <Route
+          path="/recover-password/redeem"
+          element={<RedeemPasswordRecovery />}
+        />
 
         <Route
           path="/character"

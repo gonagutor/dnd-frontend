@@ -1,66 +1,48 @@
+import * as React from 'react';
+
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Checkbox from 'app/components/Checkbox';
 import Loader from 'app/components/Loader';
-import * as React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import AuthActions from 'store/actions/auth';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { RootState } from 'types';
+import useRequestPasswordRecovery from 'app/hooks/useRequestPasswordRecovery';
+import RequestComplete from './components/RequestComplete';
 
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$$/;
 
-export function Login() {
+export function RequestPasswordRecovery() {
   const { t: titleTranslation } = useTranslation('titles');
   const { t } = useTranslation('ui');
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const { pending, error, isLoggedIn } = useSelector(
-    (state: RootState) => state.auth,
-  );
+  const { requestRecovery, error, pending, success } =
+    useRequestPasswordRecovery();
 
   const [email, setEmail] = React.useState<string>('');
-  const [password, setPassword] = React.useState<string>('');
-  const [rememberMe, setRememberMe] = React.useState(false);
 
   const [emailError, setEmailError] = React.useState<string | undefined>(
     undefined,
   );
-  const [passwordError, setPasswordError] = React.useState<string | undefined>(
-    undefined,
-  );
-
-  const clearErrors = () => {
-    setEmailError(undefined);
-    setPasswordError(undefined);
-  };
 
   const validateAll = () => {
     const errors: {
       email?: string;
-      password?: string;
     } = {};
 
     const checkEmptyOrTooLong = (val: string) => {
-      if (val.length < 1) return t('login.fieldCannotBeEmpty');
-      if (val.length > 256) return t('login.fieldTooLong');
+      if (val.length < 1)
+        return t('requestPasswordRecovery.fieldCannotBeEmpty');
+      if (val.length > 256) return t('requestPasswordRecovery.fieldTooLong');
     };
 
     errors.email = checkEmptyOrTooLong(email);
-    errors.password = checkEmptyOrTooLong(password);
 
-    if (errors.email !== undefined && EMAIL_REGEX.test(password))
-      errors.email = t('login.notAValidEmail');
-    if (errors.password !== undefined)
-      errors.password = t('login.passwordNotValid');
+    if (errors.email !== undefined && EMAIL_REGEX.test(errors.email))
+      errors.email = t('requestPasswordRecovery.notAValidEmail');
 
-    clearErrors();
     setEmailError(errors.email);
-    setPasswordError(errors.password);
-    return errors.email === undefined && errors.password === undefined;
+    return errors.email === undefined;
   };
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = e => {
@@ -68,84 +50,48 @@ export function Login() {
     const isCorrect = validateAll();
 
     if (!isCorrect) return;
-    dispatch({
-      type: AuthActions.LOGIN,
-      payload: { email, password, rememberMe },
-    });
+    requestRecovery(email);
   };
 
   React.useEffect(() => {
-    if (isLoggedIn) navigate('/dashboard', { replace: true });
-  }, [isLoggedIn, navigate]);
+    if (success)
+      setTimeout(() => navigate('/dashboard', { replace: true }), 5000);
+  }, [success, navigate]);
 
   return (
     <>
       <Helmet>
-        <title>{titleTranslation('login')}</title>
+        <title>{titleTranslation('requestPasswordRecovery')}</title>
       </Helmet>
       {pending ? <Loader translucent={true} /> : null}
+      {success ? <RequestComplete /> : null}
       <Container>
         <TitleRow>
           <BackButton onClick={() => navigate(-1)}>
             <FontAwesomeIcon size="2x" icon={faChevronLeft} />
           </BackButton>
-          <Title>{t('login.title')}</Title>
+          <Title>{t('requestPasswordRecovery.title')}</Title>
         </TitleRow>
-        <LoginForm onSubmit={onSubmit}>
+        <RequestPasswordRecoveryForm onSubmit={onSubmit}>
           <Label>
-            {t('login.emailLabel')}
+            {t('requestPasswordRecovery.emailLabel')}
             <Input
               id="email"
               onChange={e => setEmail(e.currentTarget.value)}
               value={email}
               error={!!emailError}
-              placeholder={t('login.emailPlaceholder')}
+              placeholder={t('requestPasswordRecovery.emailPlaceholder')}
               type="email"
               autoComplete="email"
             ></Input>
             <Error>{emailError}</Error>
           </Label>
 
-          <Label>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'baseline',
-              }}
-            >
-              {t('login.passwordLabel')}
-              <Link
-                to="/recover-password/request"
-                style={{ fontSize: '.75rem' }}
-              >
-                {t('login.forgotPassword')}
-              </Link>
-            </div>
-            <Input
-              id="password"
-              onChange={e => setPassword(e.currentTarget.value)}
-              value={password}
-              error={!!passwordError}
-              placeholder={t('login.passwordPlaceholder')}
-              type="password"
-              autoComplete="new-password"
-            ></Input>
-            <Error>{passwordError}</Error>
-          </Label>
-
-          <Checkbox
-            id="remeberMe"
-            label={t('login.rememberMe')}
-            checked={rememberMe}
-            setChecked={checked => setRememberMe(checked)}
-          />
           {error ? (
             <span style={{ color: 'var(--error)' }}>{error}</span>
           ) : null}
-          <Submit>{t('login.submit')}</Submit>
-        </LoginForm>
+          <Submit>{t('requestPasswordRecovery.submit')}</Submit>
+        </RequestPasswordRecoveryForm>
       </Container>
     </>
   );
@@ -182,7 +128,7 @@ const Title = styled.h1`
   padding: 0;
 `;
 
-const LoginForm = styled.form`
+const RequestPasswordRecoveryForm = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
