@@ -27,7 +27,7 @@ const CampaignsTitle = styled.h2`
   margin-bottom: 1rem;
 `;
 
-function CampaingList() {
+const CampaingList = () => {
   const campaigns: JSX.Element[] = [];
   return <div>{campaigns}</div>;
-}
+};
