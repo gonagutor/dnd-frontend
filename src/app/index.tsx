@@ -20,6 +20,7 @@ import { RootState } from 'types';
 import ValidateEmail from './pages/ValidateEmail';
 import { RedeemPasswordRecovery } from './pages/RecoverPassword/Redeem';
 import { RequestPasswordRecovery } from './pages/RecoverPassword/Request';
+import { CreateCharacter } from './pages/CreateCharacter/Loadable';
 
 const ProtectedRoute = ({ children }: { children: React.JSX.Element }) => {
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
@@ -63,6 +64,14 @@ export function App() {
           element={
             <ProtectedRoute>
               <Character />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/character/create"
+          element={
+            <ProtectedRoute>
+              <CreateCharacter />
             </ProtectedRoute>
           }
         />
