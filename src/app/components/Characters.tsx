@@ -60,7 +60,7 @@ const CharacterName = styled.p`
   line-height: normal;
 `;
 
-function CharacterList({ characters }: { characters: number }) {
+const CharacterList = ({ characters }: { characters: number }) => {
   const pjs: JSX.Element[] = [];
   for (let i = 0; i < characters; i++) {
     pjs.push(
@@ -77,4 +77,4 @@ function CharacterList({ characters }: { characters: number }) {
   }
 
   return <CharacterListContainer>{pjs}</CharacterListContainer>;
-}
+};

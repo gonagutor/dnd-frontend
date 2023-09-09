@@ -61,6 +61,7 @@
   },
   "titles": {
     "characterList": "Personajes",
+    "campaignList": "Campañas",
     "landing": "Inicio",
     "login": "Iniciar Sesión",
     "notFound": "404",

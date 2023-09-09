@@ -21,7 +21,7 @@ export default function Navbar() {
   );
 }
 
-function NavbarButton({
+const NavbarButton = ({
   to,
   src,
   name,
@@ -29,7 +29,7 @@ function NavbarButton({
   to: string;
   src: string;
   name: string;
-}) {
+}) => {
   const location = useLocation();
   return (
     <Link to={to}>
@@ -45,7 +45,7 @@ function NavbarButton({
       />
     </Link>
   );
-}
+};
 
 const NavbarContainer = styled.div`
   display: flex;
