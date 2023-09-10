@@ -5,8 +5,19 @@ import {
 } from './components/CreateCharacterContext';
 import CreateCharacterHeader from './components/CreateCharacterHeader';
 import GeneralCharacterInfo from './steps/GeneralCharacterInfo';
+import ClassSelection from './steps/ClassSelection';
+import RaceSelection from './steps/RaceSelection';
+import StatsSelection from './steps/StatsSelection';
+import CharacterDescription from './steps/CharacterDescription';
+import styled from 'styled-components';
 
-const STEPS = [<GeneralCharacterInfo />];
+const STEPS = [
+  <GeneralCharacterInfo />,
+  <ClassSelection />,
+  <RaceSelection />,
+  <StatsSelection />,
+  <CharacterDescription />,
+];
 
 export function CreateCharacter() {
   const [form, setForm] = React.useState(CREATE_CHARACTER_FORM_STATE);
@@ -16,9 +27,17 @@ export function CreateCharacter() {
   }, []);
 
   return (
-    <CreateCharacterContext.Provider value={{ form, setForm }}>
-      <CreateCharacterHeader />
-      {STEPS[form.step]}
-    </CreateCharacterContext.Provider>
+    <CharacterCreationContainer>
+      <CreateCharacterContext.Provider value={{ form, setForm }}>
+        <CreateCharacterHeader />
+        {STEPS[form.step]}
+      </CreateCharacterContext.Provider>
+    </CharacterCreationContainer>
   );
 }
+
+const CharacterCreationContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;

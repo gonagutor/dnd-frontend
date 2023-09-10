@@ -3,21 +3,23 @@ import { useForm, useFormState } from 'react-hook-form';
 import { CreateCharacterContext } from '../components/CreateCharacterContext';
 import { useTranslation } from 'react-i18next';
 
-export default function GeneralCharacterInfo() {
+export default function ClassSelection() {
   const { t } = useTranslation('ui');
   const { form, setForm } = React.useContext(CreateCharacterContext);
 
   const { register, handleSubmit, control } = useForm({
     shouldUseNativeValidation: true,
     defaultValues: {
-      name: form.generalInfo.values.name,
-      homebrewContent: form.generalInfo.values.homebrewContent,
+      classId: form.classSelection.values.classId,
+      subclassId: form.classSelection.values.subclassId,
     },
   });
 
-  const { ref: nameRef, ...nameControl } = register('name', { required: true });
-  const { ref: homebrewContentRef, ...homebrewContentControl } = register(
-    'homebrewContent',
+  const { ref: classIdRef, ...classIdControl } = register('classId', {
+    required: true,
+  });
+  const { ref: subclassIdRef, ...subclassIdControl } = register(
+    'subclassId',
     {},
   );
 
@@ -25,14 +27,11 @@ export default function GeneralCharacterInfo() {
     control,
   });
 
-  console.log(isDirty);
-
   React.useEffect(() => {
-    console.log(form);
     setForm({
       ...form,
-      generalInfo: {
-        ...form.generalInfo,
+      classSelection: {
+        ...form.classSelection,
         dirty: isDirty,
       },
     });
@@ -44,7 +43,7 @@ export default function GeneralCharacterInfo() {
         onSubmit={handleSubmit(values =>
           setForm({
             ...form,
-            generalInfo: {
+            classSelection: {
               valid: true,
               dirty: false,
               values,
@@ -53,21 +52,21 @@ export default function GeneralCharacterInfo() {
         )}
       >
         <label>
-          {t('createCharacter.nameLabel')}
+          {t('createCharacter.classIdLabel')}
           <input
             type="text"
-            {...nameControl}
-            ref={nameRef}
-            placeholder={t('createCharacter.namePlaceholder')}
+            {...classIdControl}
+            ref={classIdRef}
+            placeholder={t('createCharacter.classIdPlaceholder')}
           />
         </label>
         <label>
-          {t('createCharacter.homebrewContentLabel')}
+          {t('createCharacter.subclassIdLabel')}
           <input
-            type="checkbox"
-            {...homebrewContentControl}
-            ref={homebrewContentRef}
-            placeholder={t('createCharacter.homebrewContentPlaceholder')}
+            type="text"
+            {...subclassIdControl}
+            ref={subclassIdRef}
+            placeholder={t('createCharacter.subclassIdPlaceholder')}
           />
         </label>
       </form>

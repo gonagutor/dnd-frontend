@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { CreateCharacterContext } from './CreateCharacterContext';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components';
 
 export default function CreateCharacterHeader() {
   const { t } = useTranslation('ui');
@@ -34,7 +35,7 @@ export default function CreateCharacterHeader() {
   );
 
   return (
-    <header>
+    <CharacterCreationHeader>
       <button onClick={() => prev()}>{t('createCharacter.previous')}</button>
       <button onClick={() => setSelectedIndex(0)}>
         {t('createCharacter.generalInfo')}
@@ -48,7 +49,16 @@ export default function CreateCharacterHeader() {
       <button onClick={() => setSelectedIndex(3)}>
         {t('createCharacter.stats')}
       </button>
+      <button onClick={() => setSelectedIndex(4)}>
+        {t('createCharacter.description')}
+      </button>
       <button onClick={() => next()}>{t('createCharacter.next')}</button>
-    </header>
+    </CharacterCreationHeader>
   );
 }
+
+const CharacterCreationHeader = styled.header`
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+`;

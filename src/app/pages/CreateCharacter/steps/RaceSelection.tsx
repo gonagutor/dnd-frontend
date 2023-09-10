@@ -3,36 +3,32 @@ import { useForm, useFormState } from 'react-hook-form';
 import { CreateCharacterContext } from '../components/CreateCharacterContext';
 import { useTranslation } from 'react-i18next';
 
-export default function GeneralCharacterInfo() {
+export default function RaceSelection() {
   const { t } = useTranslation('ui');
   const { form, setForm } = React.useContext(CreateCharacterContext);
 
   const { register, handleSubmit, control } = useForm({
     shouldUseNativeValidation: true,
     defaultValues: {
-      name: form.generalInfo.values.name,
-      homebrewContent: form.generalInfo.values.homebrewContent,
+      raceId: form.raceSelection.values.raceId,
+      subraceId: form.raceSelection.values.subraceId,
     },
   });
 
-  const { ref: nameRef, ...nameControl } = register('name', { required: true });
-  const { ref: homebrewContentRef, ...homebrewContentControl } = register(
-    'homebrewContent',
-    {},
-  );
+  const { ref: raceIdRef, ...raceIdControl } = register('raceId', {
+    required: true,
+  });
+  const { ref: subraceIdRef, ...subraceIdControl } = register('subraceId', {});
 
   const { isDirty } = useFormState({
     control,
   });
 
-  console.log(isDirty);
-
   React.useEffect(() => {
-    console.log(form);
     setForm({
       ...form,
-      generalInfo: {
-        ...form.generalInfo,
+      raceSelection: {
+        ...form.raceSelection,
         dirty: isDirty,
       },
     });
@@ -44,7 +40,7 @@ export default function GeneralCharacterInfo() {
         onSubmit={handleSubmit(values =>
           setForm({
             ...form,
-            generalInfo: {
+            raceSelection: {
               valid: true,
               dirty: false,
               values,
@@ -53,21 +49,21 @@ export default function GeneralCharacterInfo() {
         )}
       >
         <label>
-          {t('createCharacter.nameLabel')}
+          {t('createCharacter.raceIdLabel')}
           <input
             type="text"
-            {...nameControl}
-            ref={nameRef}
-            placeholder={t('createCharacter.namePlaceholder')}
+            {...raceIdControl}
+            ref={raceIdRef}
+            placeholder={t('createCharacter.raceIdPlaceholder')}
           />
         </label>
         <label>
-          {t('createCharacter.homebrewContentLabel')}
+          {t('createCharacter.subraceIdLabel')}
           <input
-            type="checkbox"
-            {...homebrewContentControl}
-            ref={homebrewContentRef}
-            placeholder={t('createCharacter.homebrewContentPlaceholder')}
+            type="text"
+            {...subraceIdControl}
+            ref={subraceIdRef}
+            placeholder={t('createCharacter.subraceIdPlaceholder')}
           />
         </label>
       </form>
