@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useForm, useFormState } from 'react-hook-form';
 import { CreateCharacterContext } from '../components/CreateCharacterContext';
 import { useTranslation } from 'react-i18next';
+import CharacterCreationFormContainer from '../components/CharacterCreationFormContainer';
 
 export default function ClassSelection() {
   const { t } = useTranslation('ui');
@@ -38,7 +39,7 @@ export default function ClassSelection() {
   }, [isDirty, setForm]);
 
   return (
-    <section>
+    <CharacterCreationFormContainer>
       <form
         onSubmit={handleSubmit(values =>
           setForm({
@@ -70,6 +71,6 @@ export default function ClassSelection() {
           />
         </label>
       </form>
-    </section>
+    </CharacterCreationFormContainer>
   );
 }
