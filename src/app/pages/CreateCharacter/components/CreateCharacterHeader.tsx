@@ -99,9 +99,8 @@ const CharacterCreationHeaderContainer = styled.div`
 const CharacterCreationNavigation = styled.div`
   display: inline-flex;
   padding: 1rem;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  gap: 9.5625rem;
 `;
 
 const CharacterCreationTitle = styled.h1`
