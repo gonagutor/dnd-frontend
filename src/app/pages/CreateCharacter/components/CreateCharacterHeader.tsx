@@ -5,6 +5,12 @@ import styled from 'styled-components';
 import arrowBack from '../../../assets/icons/arrow-left.svg';
 import { Link } from 'react-router-dom';
 
+import gears from '../../../assets/icons/gears 1.svg';
+import stabbedNote from '../../../assets/icons/stabbed-note 1.svg';
+import wizardFace from '../../../assets/icons/wizard-face 1.svg';
+import dice from '../../../assets/icons/dice-twenty-faces-twenty 1.svg';
+import notebook from '../../../assets/icons/notebook 1.svg';
+
 export default function CreateCharacterHeader() {
   const { t } = useTranslation('ui');
   const { form, setForm } = React.useContext(CreateCharacterContext);
@@ -45,16 +51,19 @@ export default function CreateCharacterHeader() {
     src: string;
     name: string;
   }) => {
-    const currentIndex = form.step;
     return (
       <CharacterCreationNavigationButton
         style={{
           background:
-            currentIndex === index
+            form.step === index
               ? 'var(--gradient-linear-light, linear-gradient(180deg, #65563F 0%, #DECA9D 100%))'
               : 'var(--gradient-linear-translucent-dark, linear-gradient(180deg, rgba(54, 32, 22, 0.60) 0%, rgba(11, 9, 6, 0.60) 100%))',
         }}
-      ></CharacterCreationNavigationButton>
+        onClick={() => setSelectedIndex(index)}
+      >
+        <img src={src} alt={name} />
+        {name}
+      </CharacterCreationNavigationButton>
     );
   };
 
@@ -70,21 +79,33 @@ export default function CreateCharacterHeader() {
       </CharacterCreationNavigation>
       <CharacterCreationHeader>
         <button onClick={() => prev()}>{t('createCharacter.previous')}</button>
-        <button onClick={() => setSelectedIndex(0)}>
-          {t('createCharacter.generalInfo')}
-        </button>
-        <button onClick={() => setSelectedIndex(1)}>
-          {t('createCharacter.class')}
-        </button>
-        <button onClick={() => setSelectedIndex(2)}>
-          {t('createCharacter.race')}
-        </button>
-        <button onClick={() => setSelectedIndex(3)}>
-          {t('createCharacter.stats')}
-        </button>
-        <button onClick={() => setSelectedIndex(4)}>
-          {t('createCharacter.description')}
-        </button>
+        <CharacterCreationButton
+          index={0}
+          src={gears}
+          name={t('createCharacter.generalInfo')}
+        />
+        <CharacterCreationButton
+          index={1}
+          src={stabbedNote}
+          name={t('createCharacter.class')}
+        />
+        <CharacterCreationButton
+          index={2}
+          src={wizardFace}
+          name={t('createCharacter.race')}
+        />
+        <CharacterCreationButton
+          index={3}
+          src={dice}
+          name={t('createCharacter.stats')}
+        />
+        {/*
+        <CharacterCreationButton
+          index={4}
+          src={notebook}
+          name={t('createCharacter.description')}
+        />
+        */}
         <button onClick={() => next()}>{t('createCharacter.next')}</button>
       </CharacterCreationHeader>
     </CharacterCreationHeaderContainer>
@@ -108,6 +129,7 @@ const CharacterCreationTitle = styled.h1`
   text-shadow: 0px 0px 4px #e7d8b0;
   font-size: 1.5rem;
   font-weight: 700;
+  margin: 0;
 `;
 
 const CharacterCreationBackImage = styled.img`
@@ -123,6 +145,8 @@ const CharacterCreationNavigationButton = styled.button`
   gap: var(--Border-Radius-XXXS, 0.5rem);
   border-radius: var(--Border-Radius-XXS, 1rem) var(--Border-Radius-XXS, 1rem)
     var(--Border-Radius-XXXS, 0.5rem) var(--Border-Radius-XXS, 1rem);
+  border: none;
+  margin-right: 0.5rem;
 `;
 
 const CharacterCreationHeader = styled.header`
