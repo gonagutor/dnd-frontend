@@ -10,6 +10,7 @@ import RaceSelection from './steps/RaceSelection';
 import StatsSelection from './steps/StatsSelection';
 import CharacterDescription from './steps/CharacterDescription';
 import styled from 'styled-components';
+import CreateCharacterBottomButtons from './components/CreateCharacterBottomButtons';
 
 const STEPS = [
   <GeneralCharacterInfo />,
@@ -32,6 +33,7 @@ export function CreateCharacter() {
         <CreateCharacterHeader />
         {STEPS[form.step]}
       </CreateCharacterContext.Provider>
+      <CreateCharacterBottomButtons />
     </CharacterCreationContainer>
   );
 }
