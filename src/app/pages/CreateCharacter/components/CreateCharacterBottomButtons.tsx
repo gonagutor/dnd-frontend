@@ -33,8 +33,15 @@ export default function CreateCharacterBottomButtons() {
     available: boolean;
   }) => {
     return (
-      <BottomButtonStyle onClick={() => (available ? prev() : undefined)}>
-        {name}
+      <BottomButtonStyle
+        onClick={() => (available ? prev() : undefined)}
+        style={{
+          background: available
+            ? 'var(--gradient-linear-dark, linear-gradient(180deg, #362016 0%, #0B0906 100%))'
+            : 'var(--gradient-linear-translucent-dark, linear-gradient(180deg, rgba(54, 32, 22, 0.60) 0%, rgba(11, 9, 6, 0.60) 100%))',
+        }}
+      >
+        <ButtonText>{name}</ButtonText>
       </BottomButtonStyle>
     );
   };
@@ -47,8 +54,15 @@ export default function CreateCharacterBottomButtons() {
     available: boolean;
   }) => {
     return (
-      <BottomButtonStyle onClick={() => (available ? next() : undefined)}>
-        {name}
+      <BottomButtonStyle
+        onClick={() => (available ? next() : undefined)}
+        style={{
+          background: available
+            ? 'var(--gradient-linear-dark, linear-gradient(180deg, #362016 0%, #0B0906 100%))'
+            : 'var(--gradient-linear-translucent-dark, linear-gradient(180deg, rgba(54, 32, 22, 0.60) 0%, rgba(11, 9, 6, 0.60) 100%))',
+        }}
+      >
+        <ButtonText>{name}</ButtonText>
       </BottomButtonStyle>
     );
   };
@@ -69,9 +83,9 @@ export default function CreateCharacterBottomButtons() {
 
 const BottonButtonsContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 1rem;
+  justify-content: space-around;
+  align-items: center;
+  gap: 0.625rem;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -81,5 +95,19 @@ const BottonButtonsContainer = styled.div`
 
 const BottomButtonStyle = styled.button`
   display: flex;
-  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  flex: 1 0 0;
+  border-radius: var(--Border-Radius-XXS, 1rem);
+  padding: 1rem 0;
+  border: none;
+`;
+
+const ButtonText = styled.span`
+  color: var(--text-lightest, #e7d8b0);
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 `;

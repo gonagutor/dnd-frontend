@@ -32,8 +32,8 @@ export function CreateCharacter() {
       <CreateCharacterContext.Provider value={{ form, setForm }}>
         <CreateCharacterHeader />
         {STEPS[form.step]}
+        <CreateCharacterBottomButtons />
       </CreateCharacterContext.Provider>
-      <CreateCharacterBottomButtons />
     </CharacterCreationContainer>
   );
 }

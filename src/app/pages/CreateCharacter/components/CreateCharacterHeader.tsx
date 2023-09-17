@@ -15,24 +15,6 @@ export default function CreateCharacterHeader() {
   const { t } = useTranslation('ui');
   const { form, setForm } = React.useContext(CreateCharacterContext);
 
-  const next = React.useCallback(
-    () =>
-      setForm({
-        ...form,
-        step: form.step + 1,
-      }),
-    [setForm, form],
-  );
-
-  const prev = React.useCallback(
-    () =>
-      setForm({
-        ...form,
-        step: form.step - 1,
-      }),
-    [setForm, form],
-  );
-
   const setSelectedIndex = React.useCallback(
     (index: number) =>
       setForm({
@@ -78,7 +60,6 @@ export default function CreateCharacterHeader() {
         </CharacterCreationTitle>
       </CharacterCreationNavigation>
       <CharacterCreationHeader>
-        <button onClick={() => prev()}>{t('createCharacter.previous')}</button>
         <CharacterCreationButton
           index={0}
           src={gears}
@@ -106,7 +87,6 @@ export default function CreateCharacterHeader() {
           name={t('createCharacter.description')}
         />
         */}
-        <button onClick={() => next()}>{t('createCharacter.next')}</button>
       </CharacterCreationHeader>
     </CharacterCreationHeaderContainer>
   );
