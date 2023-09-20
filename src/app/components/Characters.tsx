@@ -6,6 +6,26 @@ import defaultImage from '../assets/druid.webp';
 
 export default function Characters() {
   const { t } = useTranslation('titles');
+
+  const CharacterList = ({ characters }: { characters: number }) => {
+    const pjs: JSX.Element[] = [];
+    for (let i = 0; i < characters; i++) {
+      pjs.push(
+        <Character
+          style={{
+            background: `url(${defaultImage})`,
+            backgroundSize: 'cover',
+          }}
+        >
+          <CharacterClass>Clase del pj</CharacterClass>
+          <CharacterName>Nombre del pj</CharacterName>
+        </Character>,
+      );
+    }
+
+    return <CharacterListContainer>{pjs}</CharacterListContainer>;
+  };
+
   return (
     <CharactersContainer>
       <CharacterTitle>{t('characterList')}</CharacterTitle>
@@ -59,22 +79,3 @@ const CharacterName = styled.p`
   font-weight: 400;
   line-height: normal;
 `;
-
-const CharacterList = ({ characters }: { characters: number }) => {
-  const pjs: JSX.Element[] = [];
-  for (let i = 0; i < characters; i++) {
-    pjs.push(
-      <Character
-        style={{
-          background: `url(${defaultImage})`,
-          backgroundSize: 'cover',
-        }}
-      >
-        <CharacterClass>Clase del pj</CharacterClass>
-        <CharacterName>Nombre del pj</CharacterName>
-      </Character>,
-    );
-  }
-
-  return <CharacterListContainer>{pjs}</CharacterListContainer>;
-};

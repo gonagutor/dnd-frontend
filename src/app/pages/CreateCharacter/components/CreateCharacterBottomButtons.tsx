@@ -86,7 +86,6 @@ const BottonButtonsContainer = styled.div`
   justify-content: space-around;
   align-items: center;
   gap: 0.625rem;
-  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;

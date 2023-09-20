@@ -10,4 +10,5 @@ const Section = styled.div`
   flex-direction: column;
   flex-grow: 1;
   overflow-y: scroll;
+  padding: 0 1rem;
 `;

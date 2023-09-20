@@ -3,10 +3,12 @@ import { useForm, useFormState } from 'react-hook-form';
 import { CreateCharacterContext } from '../components/CreateCharacterContext';
 import { useTranslation } from 'react-i18next';
 import CharacterCreationFormContainer from '../components/CharacterCreationFormContainer';
+import styled from 'styled-components';
 
 export default function ClassSelection() {
   const { t } = useTranslation('ui');
   const { form, setForm } = React.useContext(CreateCharacterContext);
+  const ClassesId = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const { register, handleSubmit, control } = useForm({
     shouldUseNativeValidation: true,
@@ -38,6 +40,15 @@ export default function ClassSelection() {
     });
   }, [isDirty, setForm]);
 
+  const Classes = () => {
+    const cls: JSX.Element[] = [];
+    for (let id in ClassesId) {
+      cls.push(<ClassContainer></ClassContainer>);
+    }
+
+    return <div>{cls}</div>;
+  };
+
   return (
     <CharacterCreationFormContainer>
       <form
@@ -52,6 +63,7 @@ export default function ClassSelection() {
           }),
         )}
       >
+        <Classes />
         <label>
           {t('createCharacter.classIdLabel')}
           <input
@@ -74,3 +86,20 @@ export default function ClassSelection() {
     </CharacterCreationFormContainer>
   );
 }
+
+const ClassContainer = styled.div`
+  display: flex;
+  width: 23.875rem;
+  height: 10.5rem;
+  padding: 0.75rem;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  margin: 0.5rem;
+
+  border-radius: var(--Border-Radius-XXS, 1rem);
+  background: var(
+    --gradient-linear-dark,
+    linear-gradient(180deg, #362016 0%, #0b0906 100%)
+  );
+`;
