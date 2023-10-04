@@ -21,6 +21,7 @@ import ValidateEmail from './pages/ValidateEmail';
 import { RedeemPasswordRecovery } from './pages/RecoverPassword/Redeem';
 import { RequestPasswordRecovery } from './pages/RecoverPassword/Request';
 import { CreateCharacter } from './pages/CreateCharacter/Loadable';
+import { CreateCharacterCancel } from './pages/CreateCharacterCancel/Loadable';
 
 const ProtectedRoute = ({ children }: { children: React.JSX.Element }) => {
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
@@ -72,6 +73,14 @@ export function App() {
           element={
             <ProtectedRoute>
               <CreateCharacter />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/character/create/cancel"
+          element={
+            <ProtectedRoute>
+              <CreateCharacterCancel />
             </ProtectedRoute>
           }
         />

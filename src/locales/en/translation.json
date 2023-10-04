@@ -9,6 +9,12 @@
       "orDivider": "- or -",
       "characterName": ["Balr", "Damus"]
     },
+    "characterCancel": {
+      "cancel": "Cancel",
+      "continue": "Continue",
+      "title": "Your changes will not be saved",
+      "text": "Are you sure you want to cancel this character creation?"
+    },
     "register": {
       "title": "Register",
       "nameLabel": "Name",

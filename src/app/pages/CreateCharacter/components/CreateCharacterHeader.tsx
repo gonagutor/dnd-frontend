@@ -52,7 +52,7 @@ export default function CreateCharacterHeader() {
   return (
     <CharacterCreationHeaderContainer>
       <CharacterCreationNavigation>
-        <Link to={'/character'}>
+        <Link to={'/character/create/cancel'}>
           <CharacterCreationBackImage src={arrowBack} alt="back" />
         </Link>
         <CharacterCreationTitle>
