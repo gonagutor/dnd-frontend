@@ -32,10 +32,7 @@ const CharcaterCreateCharacterButton = styled.div`
   margin: 1rem;
 
   border-radius: var(--Border-Radius-XXS, 1rem);
-  background: var(
-    --gradient-dark,
-    linear-gradient(180deg, #362016 0%, #65563f 48.96%, #0b0906 100%)
-  );
+  background: var(--gradient-dark, --gradient-middle-light);
 
   color: var(--text-lightest, #e7d8b0);
   text-align: center;

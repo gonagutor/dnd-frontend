@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import gravel from '../../assets/textures/gravel.png';
 
 export function CreateCharacterCancel() {
   const { t } = useTranslation('ui');
@@ -34,10 +33,7 @@ const CharacterCancelBackground = styled.div`
   align-items: center;
   padding: 1.5rem;
 
-  background: var(
-    --gradient-linear-dark,
-    linear-gradient(180deg, #362016 0%, #0b0906 100%)
-  );
+  background: var(--gradient-linear-dark);
 `;
 
 const CharacterCancelContainer = styled.div`
@@ -49,14 +45,9 @@ const CharacterCancelContainer = styled.div`
   gap: 1.5rem;
   flex-shrink: 0;
 
-  border-radius: var(--Border-Radius-XXS, 1rem);
-  background: linear-gradient(to bottom, #4d3319, #b3865e, #4d3319);
-  /* background: var(
-    --background-textured-dark,
-    url(${gravel}),
-    lightgray 0% 0% / 100px 100px repeat,
-    linear-gradient(180deg, #362016 0%, #65563f 48.96%, #0b0906 100%)
-  ); */
+  border-radius: var(--border-radius-xxs);
+  /* background: linear-gradient(to bottom, #4d3319, #b3865e, #4d3319); */
+  background: var(--texture), var(--gradient-middle-light);
 `;
 
 const CharacterCancelTitle = styled.h1`

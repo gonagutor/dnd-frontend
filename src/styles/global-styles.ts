@@ -32,6 +32,8 @@ export const GlobalStyle = createGlobalStyle`
     --error: #cc0000;
 
 
+
+    --gradient-middle-light: linear-gradient(180deg, var(--background-darker) 0%, var(--background-dark) 50%, var(--background-darkest) 100%);
     --gradient-dark: linear-gradient(180deg, var(--background-darker) 0%, var(--background-dark) 50%, var(--background-darkest) 100%);
     --gradient-linear-dark: linear-gradient(0deg, var(--background-darker) 0%, var(--background-darkest) 100%);
     --gradient-linear-dark-translucent: linear-gradient(0deg, var(--background-darker-translucent) 0%, var(--background-darkest-translucent) 100%);

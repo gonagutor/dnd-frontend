@@ -4,7 +4,6 @@ import { CreateCharacterContext } from '../components/CreateCharacterContext';
 import { useTranslation } from 'react-i18next';
 import CharacterCreationFormContainer from '../components/CharacterCreationFormContainer';
 import styled from 'styled-components';
-import check from '../../../assets/icons/check.svg';
 
 export default function GeneralCharacterInfo() {
   const { t } = useTranslation('ui');
@@ -18,7 +17,14 @@ export default function GeneralCharacterInfo() {
     },
   });
 
-  const { ref: nameRef, ...nameControl } = register('name', { required: true });
+  const onBlurName = event => {
+    console.log(event);
+  };
+
+  const { ref: nameRef, ...nameControl } = register('name', {
+    required: true,
+    onBlur: onBlurName,
+  });
   const { ref: homebrewContentRef, ...homebrewContentControl } = register(
     'homebrewContent',
     {},
