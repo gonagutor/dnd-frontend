@@ -1,12 +1,7 @@
 import * as React from 'react';
-import { Helmet } from 'react-helmet-async';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-
-import { GlobalStyle } from 'styles/global-styles';
+import { Route, Navigate, Routes } from 'react-router-dom';
 
 import { Landing } from './pages/Landing/Loadable';
-import { NotFound } from './pages/NotFound/Loadable';
 import { CharacterView } from './pages/CharacterView/Loadable';
 import { Login } from './pages/Login/Loadable';
 import { Register } from './pages/Register/Loadable';
@@ -20,6 +15,10 @@ import { RootState } from 'types';
 import ValidateEmail from './pages/ValidateEmail';
 import { RedeemPasswordRecovery } from './pages/RecoverPassword/Redeem';
 import { RequestPasswordRecovery } from './pages/RecoverPassword/Request';
+import { NotFound } from './pages/NotFound';
+import { GlobalStyle } from 'styles/global-styles';
+import { Helmet } from 'react-helmet-async';
+import { useTranslation } from 'react-i18next';
 
 const ProtectedRoute = ({ children }: { children: React.JSX.Element }) => {
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
@@ -31,7 +30,7 @@ export function App() {
   const { i18n } = useTranslation();
 
   return (
-    <BrowserRouter>
+    <>
       <Helmet
         titleTemplate="%s - D&D"
         defaultTitle="D&D"
@@ -44,22 +43,22 @@ export function App() {
       </Helmet>
 
       <Routes>
-        <Route path="/" element={<Landing />} />
+        <Route index element={<Landing />} />
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/validate-email" element={<ValidateEmail />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+        <Route path="validate-email" element={<ValidateEmail />} />
         <Route
-          path="/recover-password/request"
+          path="recover-password/request"
           element={<RequestPasswordRecovery />}
         />
         <Route
-          path="/recover-password/redeem"
+          path="recover-password/redeem"
           element={<RedeemPasswordRecovery />}
         />
 
         <Route
-          path="/character"
+          path="character"
           element={
             <ProtectedRoute>
               <Character />
@@ -67,7 +66,7 @@ export function App() {
           }
         />
         <Route
-          path="/character/:characterId"
+          path="character/:characterId"
           element={
             <ProtectedRoute>
               <CharacterView />
@@ -75,7 +74,7 @@ export function App() {
           }
         />
         <Route
-          path="/dashboard"
+          path="dashboard"
           element={
             <ProtectedRoute>
               <Dashboard />
@@ -83,7 +82,7 @@ export function App() {
           }
         />
         <Route
-          path="/homebrew"
+          path="homebrew"
           element={
             <ProtectedRoute>
               <Homebrew />
@@ -91,7 +90,7 @@ export function App() {
           }
         />
         <Route
-          path="/settings"
+          path="settings"
           element={
             <ProtectedRoute>
               <Settings />
@@ -99,7 +98,7 @@ export function App() {
           }
         />
         <Route
-          path="/campaign"
+          path="campaign"
           element={
             <ProtectedRoute>
               <Campaign />
@@ -109,8 +108,7 @@ export function App() {
 
         <Route path="*" element={<NotFound />} />
       </Routes>
-
       <GlobalStyle />
-    </BrowserRouter>
+    </>
   );
 }
