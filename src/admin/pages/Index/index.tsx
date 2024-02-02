@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { MenuDesktop } from 'admin/components/Menu/MenuDesktop';
 import { MenuMobile } from 'admin/components/Menu/MenuMobile';
 import { useWindowSize } from 'common/hooks/useWindowSize';
+import constants from 'utils/constants';
 
 const Container = styled.div`
   position: relative;
@@ -44,7 +45,7 @@ export function Index() {
 
   return (
     <Container>
-      {width < 640 ? <MenuMobile /> : <MenuDesktop />}
+      {width < constants.MOBILE_BREAKPOINT ? <MenuMobile /> : <MenuDesktop />}
       <div style={{ marginLeft: '9rem' }}>
         <Header>
           <SearchBox>
