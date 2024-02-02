@@ -1,4 +1,11 @@
 {
+  "admin": {
+    "title": "DND",
+    "navbar": {
+      "system": "System",
+      "game": "Game"
+    }
+  },
   "ui": {
     "notFound": "Page not found",
     "loading": "Loading...",
