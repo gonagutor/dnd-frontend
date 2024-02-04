@@ -12,12 +12,11 @@ import * as React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
+//Import routes
+import { Router } from 'router';
+
 // Use consistent styling
 import 'sanitize.css/sanitize.css';
-
-// Import root app
-import { App } from 'app';
-
 import { HelmetProvider } from 'react-helmet-async';
 
 import { configureAppStore } from 'store/configureStore';
@@ -36,7 +35,7 @@ root.render(
   <Provider store={store}>
     <HelmetProvider>
       <React.StrictMode>
-        <App />
+        <Router />
       </React.StrictMode>
     </HelmetProvider>
   </Provider>,

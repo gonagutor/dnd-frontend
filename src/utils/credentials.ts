@@ -31,8 +31,8 @@ export const getUser = () => {
     return undefined;
   try {
     return JSON.parse(
-      sessionStorage.getItem(constants.USER) ||
-        localStorage.getItem(constants.USER) ||
+      sessionStorage.getItem(constants.USER) ??
+        localStorage.getItem(constants.USER) ??
         '{}',
     ) as User;
   } catch (e) {
@@ -41,11 +41,11 @@ export const getUser = () => {
 };
 
 export const getAccessToken = () =>
-  sessionStorage.getItem(constants.ACCESS_TOKEN) ||
-  localStorage.getItem(constants.ACCESS_TOKEN) ||
+  sessionStorage.getItem(constants.ACCESS_TOKEN) ??
+  localStorage.getItem(constants.ACCESS_TOKEN) ??
   undefined;
 
 export const getRefreshToken = () =>
-  sessionStorage.getItem(constants.REFRESH_TOKEN) ||
-  localStorage.getItem(constants.REFRESH_TOKEN) ||
+  sessionStorage.getItem(constants.REFRESH_TOKEN) ??
+  localStorage.getItem(constants.REFRESH_TOKEN) ??
   undefined;
