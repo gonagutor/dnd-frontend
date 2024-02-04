@@ -14,7 +14,7 @@ export function Admin() {
   const { i18n } = useTranslation();
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
 
-  if (isLoggedIn) return <Navigate to="/login" />;
+  if (!isLoggedIn) return <Navigate to="/login" />;
 
   return (
     <>
