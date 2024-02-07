@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { DashboardPage } from 'admin/components/DashboardPage';
 import styled from 'styled-components';
-import Table from '@mui/joy/Table';
 import { useSelector } from 'react-redux';
 import { RootState } from 'types';
-import Checkbox from 'app/components/Checkbox';
+import { UsersTable } from 'admin/components/UsersTable';
 
 const Container = styled.div`
   display: flex;
@@ -13,27 +12,26 @@ const Container = styled.div`
   gap: 1rem;
 `;
 
+const PagesText = styled.p`
+  color: white;
+`;
+
+const Button = styled.button`
+  background-color: white;
+  color: black;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+`;
+
 interface jsonUsers {
   code: 'string';
   error: 'string';
   message: 'string';
-  data: [
-    {
-      ID: 'string';
-      Email: 'string';
-      Name: 'string';
-      Surname: 'string';
-      Role: 'string';
-      ProfilePicture: 'string';
-      IsActive: 'boolean';
-      DeletedAt: 'string';
-      CreatedAt: 'string';
-      UpdatedAt: 'string';
-    },
-  ];
   pagination: {
-    maxPages: 'number';
     page: 'number';
+    maxPages: 'number';
     pageSize: 'number';
   };
 }
@@ -48,14 +46,11 @@ export function UsersList() {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          'http://127.0.0.1:3000/user?page=' + page,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
+        const response = await fetch('http://127.0.0.1:3000/user/pages', {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
           },
-        );
+        });
 
         const jsonData = await response.json();
         setData(jsonData);
@@ -63,8 +58,9 @@ export function UsersList() {
         console.error('Error al obtener el JSON:', error);
       }
     };
+
     fetchData();
-  }, [accessToken]);
+  }, [page, accessToken]);
 
   if (!isLoggedIn) {
     return <p>Debes iniciar sesión para ver esta página</p>;
@@ -74,47 +70,31 @@ export function UsersList() {
     return <p>Cargando...</p>;
   }
 
+  if (!data.message.includes('Pages found')) {
+    return <p>Hubo un error al obtener los usuarios {data.error}</p>;
+  }
+
   return (
     <DashboardPage currentPage="users">
       <Container>
-        <Table color="neutral" size="md" stickyHeader variant="plain">
-          <thead>
-            <tr>
-              <th style={{ width: '20%' }}>ID</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th style={{ width: '15%' }}>Email</th>
-              <th>Rol</th>
-              <th>Activo</th>
-              <th style={{ width: '20%' }}>Fecha de creación</th>
-              <th style={{ width: '20%' }}>Fecha de actualización</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.data.map(user => (
-              <tr key={user.ID} style={{ color: 'white' }}>
-                <td>{user.ID}</td>
-                <td>{user.Name}</td>
-                <td>{user.Surname}</td>
-                <td>{user.Email}</td>
-                <td>{user.Role}</td>
-                <td>
-                  <Checkbox
-                    checked={user.IsActive ? true : false}
-                    label=""
-                    id="isActive"
-                    setChecked={function (checked: boolean): void {
-                      throw new Error('Function not implemented.');
-                    }}
-                  />
-                </td>
-                <td>{user.CreatedAt}</td>
-                <td>{user.UpdatedAt}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-        <p style={{ color: 'white' }}>Pagina: {data.pagination.page}</p>
+        <UsersTable page={page} />
+        <PagesText>
+          Pagina: {page} de {data.pagination.maxPages}
+        </PagesText>
+        <Button
+          onClick={() => {
+            if (page > 1) setPage(page - 1);
+          }}
+        >
+          Pagina anterior
+        </Button>
+        <Button
+          onClick={() => {
+            if (page < Number(data.pagination.maxPages)) setPage(page + 1);
+          }}
+        >
+          Siguiente pagina
+        </Button>
       </Container>
     </DashboardPage>
   );
