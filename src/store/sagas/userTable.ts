@@ -66,6 +66,26 @@ function* prevPage(action: UserTableAction) {
   });
 }
 
+function* selectPage(action: UserTableAction) {
+  const { page, maxPages } = action.payload;
+
+  if ((page ?? 1) > (maxPages ?? 1) || (page ?? 1) <= 0) {
+    return yield put({
+      type: UserTableActions.PAGINATION_FAILURE,
+      payload: {
+        error: 'No more pages',
+      },
+    });
+  }
+
+  yield put({
+    type: UserTableActions.INIT_TABLE,
+    payload: {
+      page: page ?? 1,
+    },
+  });
+}
+
 function* deleteUser(action: UserTableAction) {
   const { id, users } = action.payload;
   if (!id || id === undefined) {
@@ -138,6 +158,7 @@ export function* userTableSaga() {
     takeLatest(UserTableActions.INIT_TABLE, initTableSaga),
     takeLatest(UserTableActions.NEXT_PAGE, nextPage),
     takeLatest(UserTableActions.PREV_PAGE, prevPage),
+    takeLatest(UserTableActions.SELECT_PAGE, selectPage),
     takeLatest(UserTableActions.DELETE_USER, deleteUser),
     takeLatest(UserTableActions.UPDATE_USER, updateUserState),
   ]);

@@ -49,6 +49,12 @@ const userTableReducer = (
         page: action.payload.page,
         error: undefined,
       };
+    case UserTableActions.SELECT_PAGE:
+      return {
+        ...state,
+        page: action.payload.page,
+        error: undefined,
+      };
     case UserTableActions.PAGINATION_FAILURE:
       return {
         ...state,

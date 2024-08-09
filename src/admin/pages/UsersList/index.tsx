@@ -3,7 +3,7 @@ import { DashboardPage } from 'admin/components/DashboardPage';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'types';
-import { UsersTable } from 'admin/components/UsersTable';
+import UserTableSort from 'admin/components/UsersTable';
 import UserTableActions from 'store/actions/userTable';
 import Loader from 'app/components/Loader';
 
@@ -47,36 +47,7 @@ export function UsersList() {
         {!isLoggedIn && <p>Acceso restringido</p>}
         {pending && <Loader />}
         {!pending && error && <p style={{ color: 'white' }}>{error}</p>}
-        {!pending && !error && (
-          <>
-            <UsersTable users={users} />
-            <PagesText>
-              Pagina: {page} de {maxPages}
-            </PagesText>
-            <Button
-              onClick={() => {
-                if (page > 1)
-                  dispatch({
-                    type: UserTableActions.PREV_PAGE,
-                    payload: { page: page - 1 },
-                  });
-              }}
-            >
-              Pagina anterior
-            </Button>
-            <Button
-              onClick={() => {
-                if (page < maxPages)
-                  dispatch({
-                    type: UserTableActions.NEXT_PAGE,
-                    payload: { page: page + 1, maxPages },
-                  });
-              }}
-            >
-              Siguiente pagina
-            </Button>
-          </>
-        )}
+        {!pending && !error && <UserTableSort users={users} />}
       </Container>
     </DashboardPage>
   );
