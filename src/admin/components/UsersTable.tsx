@@ -1,178 +1,139 @@
 import * as React from 'react';
 import Table from '@mui/joy/Table';
-import Checkbox from 'app/components/Checkbox';
-import { RootState } from 'types';
-import { useSelector } from 'react-redux';
+import Checkbox from '@mui/joy/Checkbox';
 import styled from 'styled-components';
+import { User } from 'services/user.service';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'types';
+import Loader from 'app/components/Loader';
+import UserTableActions from 'store/actions/userTable';
+import moment from 'moment';
+import {
+  Dropdown,
+  ListDivider,
+  Menu,
+  MenuButton,
+  MenuItem,
+  Sheet,
+} from '@mui/joy';
 
-const Button = styled.button`
-  background-color: red;
-  color: white;
-  border: 1px solid black;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-`;
-
-interface jsonUsers {
-  code: 'string';
-  error: 'string';
-  message: 'string';
-  data: [
-    {
-      ID: 'string';
-      Email: 'string';
-      Name: 'string';
-      Surname: 'string';
-      Role: 'string';
-      ProfilePicture: 'string';
-      IsActive: boolean;
-      DeletedAt: 'string';
-      CreatedAt: 'string';
-      UpdatedAt: 'string';
-    },
-  ];
-  pagination: {
-    maxPages: 'number';
-    page: 'number';
-    pageSize: 'number';
-  };
-}
-
-interface jsonDefUser {
-  code: 'string';
-  error: 'string';
-  message: 'string';
-}
-
-interface UsersTableProps {
-  page: number;
-}
-
-export function UsersTable(props: UsersTableProps) {
-  const { accessToken } = useSelector((state: RootState) => state.auth);
-  const [data, setData] = React.useState<jsonUsers | null>(null);
-  const [defUser, setDefUser] = React.useState<jsonDefUser | null>(null);
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          'http://127.0.0.1:3000/user?page=' + props.page,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          },
-        );
-
-        const jsonData = await response.json();
-        setData(jsonData);
-      } catch (error) {
-        console.error('Error al obtener el JSON:', error);
-      }
-    };
-
-    fetchData();
-  }, [props.page, accessToken]);
-
-  const deleteUser = async (id: string) => {
-    try {
-      const response = await fetch('http://127.0.0.1:3000/user/' + id, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      const jsonData = await response.json();
-      setDefUser(jsonData);
-
-      if (defUser?.error != null) {
-        alert('Error al eliminar el usuario: ' + defUser.error);
-        console.error('Error al eliminar el usuario:', defUser.error);
-      } else {
-        alert('Usuario eliminado correctamente');
-        window.location.reload();
-      }
-    } catch (error) {}
-  };
+export function UsersTable({ users }: { users: User[] }) {
+  const dispatch = useDispatch();
+  const { pending, error } = useSelector((state: RootState) => state.userTable);
 
   const copyIdToClipboard = async (id: string) => {
     await navigator.clipboard.writeText(id);
-    alert('ID copiado');
   };
-
-  const delUserButton = (id: string) => {
-    return <Button onClick={() => deleteUser(id)}>Eliminar</Button>;
-  };
-
-  if (!data) {
-    return <p>Cargando...</p>;
-  }
 
   return (
-    <Table color="neutral" size="md" stickyHeader variant="plain">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th style={{ width: '15%' }}>Email</th>
-          <th>Rol</th>
-          <th>Activo</th>
-          <th style={{ width: '20%' }}>Fecha de creación</th>
-          <th style={{ width: '20%' }}>Fecha de actualización</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.data.map(user => (
-          <tr key={user.ID} style={{ color: 'white' }}>
-            <td onClick={() => copyIdToClipboard(user.ID)}>{user.Name}</td>
-            <td>{user.Surname}</td>
-            <td>{user.Email}</td>
-            <td>{user.Role}</td>
-            <td>
-              <input
-                type="checkbox"
-                name="isActive"
-                value="isActive"
-                checked={user.IsActive}
-                onChange={async () => {
-                  const response = await fetch(
-                    'http://127.0.0.1:3000/user/' + user.ID,
-                    {
-                      method: 'PUT',
-                      headers: {
-                        Authorization: `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify({ IsActive: !user.IsActive }),
-                    },
-                  );
-
-                  const jsonData = await response.json();
-                  setDefUser(jsonData);
-
-                  if (defUser?.error != null) {
-                    alert('Error al actualizar el usuario: ' + defUser.error);
-                    console.error(
-                      'Error al actualizar el usuario:',
-                      defUser.error,
-                    );
-                  } else {
-                    alert('Usuario actualizado correctamente');
-                    window.location.reload();
-                  }
-                }}
-              />
-            </td>
-            <td>{user.CreatedAt}</td>
-            <td>{user.UpdatedAt}</td>
-            <td>{delUserButton(user.ID)}</td>
+    <Sheet sx={{ borderRadius: 10 }}>
+      {pending && <Loader />}
+      {!pending && error && <p style={{ color: 'white' }}>{error}</p>}
+      <Table
+        sx={{
+          bgcolor: 'gray',
+        }}
+        color="neutral"
+        size="md"
+      >
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Rol</th>
+            <th>Activo</th>
+            <th>Fecha de creación</th>
+            <th>Fecha de actualización</th>
+            <th></th>
           </tr>
-        ))}
-      </tbody>
-    </Table>
+        </thead>
+        <tbody>
+          {users.map(user => (
+            <tr key={user.id} style={{ color: 'white' }}>
+              <td
+                style={{ textTransform: 'capitalize' }}
+                onClick={() => copyIdToClipboard(user.id)}
+              >
+                {user.name}
+              </td>
+              <td style={{ textTransform: 'capitalize' }}>{user.surname}</td>
+              <td>{user.email}</td>
+              <td style={{ textTransform: 'capitalize' }}>{user.role}</td>
+              <td>
+                <Checkbox
+                  color="primary"
+                  label=""
+                  variant="solid"
+                  checked={user.isActive}
+                />
+              </td>
+              <td>
+                {user.createdAt
+                  ? moment(user.createdAt).format('DD/MM/YYYY HH:mm')
+                  : 'Unkown'}
+              </td>
+              <td>
+                {user.updatedAt
+                  ? moment(user.updatedAt).format('DD/MM/YYYY HH:mm')
+                  : 'Unkown'}
+              </td>
+              <td style={{ textAlign: 'center' }}>
+                <Dropdown>
+                  <MenuButton>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={1.5}
+                      stroke="white"
+                      className="size-6"
+                      width={24}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+                      />
+                    </svg>
+                  </MenuButton>
+                  <Menu>
+                    <MenuItem onClick={() => copyIdToClipboard(user.id)}>
+                      Copiar ID
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        dispatch({
+                          type: UserTableActions.UPDATE_USER,
+                          payload: {
+                            id: user.id,
+                            isActive: !user.isActive,
+                            users,
+                          },
+                        });
+                      }}
+                    >
+                      Activar/Desactivar
+                    </MenuItem>
+                    <ListDivider />
+                    <MenuItem
+                      onClick={() =>
+                        dispatch({
+                          type: UserTableActions.DELETE_USER,
+                          payload: { id: user.id, users },
+                        })
+                      }
+                      sx={{ color: 'red' }}
+                    >
+                      Eliminar
+                    </MenuItem>
+                  </Menu>
+                </Dropdown>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </Sheet>
   );
 }
