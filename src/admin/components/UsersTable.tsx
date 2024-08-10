@@ -1,17 +1,15 @@
 import * as React from 'react';
 import Table from '@mui/joy/Table';
 import Checkbox from '@mui/joy/Checkbox';
-import { faArrowDownShortWide } from '@fortawesome/free-solid-svg-icons';
 import { User } from 'services/user.service';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'types';
 import Loader from 'app/components/Loader';
-import UserTableActions from 'store/actions/userTable';
+import UserTableActions from 'store/actions/users';
 import moment from 'moment';
 import {
   Box,
   Dropdown,
-  FormControl,
   IconButton,
   Link,
   ListDivider,
@@ -19,56 +17,9 @@ import {
   MenuButton,
   MenuItem,
   Sheet,
-  Typography,
 } from '@mui/joy';
 
-function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-type Order = 'asc' | 'desc';
-
-function getComparator<Key extends keyof any>(
-  order: Order,
-  orderBy: Key,
-): (
-  a: { [key in Key]: number | string },
-  b: { [key in Key]: number | string },
-) => number {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-function stableSort<T>(
-  array: readonly T[],
-  comparator: (a: T, b: T) => number,
-) {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map(el => el[0]);
-}
-
-interface HeadCell {
-  disablePadding: boolean;
-  id: keyof Data;
-  label: string;
-  numeric: boolean;
-}
-
-const headCells: HeadCell[] = [
+const headCells = [
   {
     id: 'name',
     numeric: false,
@@ -81,51 +32,58 @@ const headCells: HeadCell[] = [
     disablePadding: false,
     label: 'Apellido',
   },
-  { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
-  { id: 'role', numeric: false, disablePadding: false, label: 'Rol' },
-  { id: 'isActive', numeric: false, disablePadding: false, label: 'Activo' },
   {
-    id: 'createdAt',
+    id: 'email',
+    numeric: false,
+    disablePadding: false,
+    label: 'Email',
+  },
+  {
+    id: 'role',
+    numeric: false,
+    disablePadding: false,
+    label: 'Rol',
+  },
+  {
+    id: 'is_active',
+    numeric: false,
+    disablePadding: false,
+    label: 'Activo?',
+  },
+  {
+    id: 'created_at',
     numeric: false,
     disablePadding: false,
     label: 'Fecha de creación',
   },
   {
-    id: 'updatedAt',
+    id: 'updated_at',
     numeric: false,
     disablePadding: false,
     label: 'Fecha de actualización',
   },
 ];
 
-interface Data {
-  name: string;
-  surname: string;
-  email: string;
-  role: string;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+const EnhancedTableHead = () => {
+  const dispatch = useDispatch();
+  const {
+    page,
+    key: orderBy,
+    sortOrder,
+  } = useSelector((state: RootState) => state.user);
 
-interface EnhancedTableProps {
-  numSelected: number;
-  onRequestSort: (
-    event: React.MouseEvent<unknown>,
-    property: keyof Data,
-  ) => void;
-  onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  order: Order;
-  orderBy: string;
-  rowCount: number;
-}
+  const handleChangeOrder = (key: string) => {
+    const order = key === orderBy && sortOrder === 'DESC' ? 'ASC' : 'DESC';
 
-const EnhancedTableHead = (props: EnhancedTableProps) => {
-  const { order, orderBy, onRequestSort } = props;
-  const createSortHandler =
-    (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
-      onRequestSort(event, property);
-    };
+    dispatch({
+      type: UserTableActions.INIT_TABLE,
+      payload: {
+        page,
+        key,
+        sortOrder: order,
+      },
+    });
+  };
 
   return (
     <thead>
@@ -134,10 +92,13 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
           const active = orderBy === headCell.id;
           return (
             <th
+              style={{ width: 'fit-content' }}
               key={headCell.id}
               aria-sort={
                 active
-                  ? ({ asc: 'ascending', desc: 'descending' } as const)[order]
+                  ? ({ asc: 'ascending', desc: 'descending' } as const)[
+                      sortOrder
+                    ]
                   : undefined
               }
             >
@@ -146,7 +107,9 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
                 color="neutral"
                 textColor={active ? 'primary.plainColor' : undefined}
                 component="button"
-                onClick={createSortHandler(headCell.id)}
+                onClick={() => {
+                  handleChangeOrder(headCell.id);
+                }}
                 fontWeight="lg"
                 startDecorator={
                   headCell.numeric ? (
@@ -192,7 +155,7 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
                   '& svg': {
                     transition: '0.2s',
                     transform:
-                      active && order === 'desc'
+                      active && sortOrder === 'DESC'
                         ? 'rotate(0deg)'
                         : 'rotate(180deg)',
                   },
@@ -202,7 +165,7 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
                 {headCell.label}
                 {active ? (
                   <Box component="span" sx={{ display: 'none' }}>
-                    {order === 'desc'
+                    {sortOrder === 'DESC'
                       ? 'sorted descending'
                       : 'sorted ascending'}
                   </Box>
@@ -211,76 +174,21 @@ const EnhancedTableHead = (props: EnhancedTableProps) => {
             </th>
           );
         })}
-        <th></th>
+        <th style={{ width: '5rem' }}></th>
       </tr>
     </thead>
   );
 };
 
-const UserTableSort = ({ users }: { users: User[] }) => {
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('name');
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
-
+const UserTableSort = () => {
   const dispatch = useDispatch();
-  const { pending, error, page, maxPages } = useSelector(
-    (state: RootState) => state.userTable,
+  const { pending, error, users } = useSelector(
+    (state: RootState) => state.user,
   );
 
   const copyIdToClipboard = async (id: string) => {
     await navigator.clipboard.writeText(id);
   };
-
-  const usersParsed = users.map(user => ({
-    id: user.id,
-    name: user.name,
-    surname: user.surname,
-    email: user.email,
-    role: user.role,
-    isActive: user.isActive ? 1 : 0,
-    createdAt: user.createdAt || '',
-    updatedAt: user.updatedAt || '',
-  }));
-
-  const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
-    property: keyof Data,
-  ) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelected = users.map(user => user.name);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: readonly string[] = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
-  const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
   return (
     <Sheet
@@ -298,116 +206,92 @@ const UserTableSort = ({ users }: { users: User[] }) => {
             theme.vars.palette.success.softBg,
         }}
       >
-        <EnhancedTableHead
-          numSelected={selected.length}
-          order={order}
-          orderBy={orderBy}
-          onSelectAllClick={handleSelectAllClick}
-          onRequestSort={handleRequestSort}
-          rowCount={users.length}
-        />
+        <EnhancedTableHead />
         <tbody>
-          {stableSort(usersParsed, getComparator(order, orderBy)).map(
-            (user, index) => {
-              const isItemSelected = isSelected(user.id);
-
-              return (
-                <tr
-                  onClick={event => handleClick(event, user.id)}
-                  role="checkbox"
-                  aria-checked={isItemSelected}
-                  tabIndex={-1}
-                  key={user.id}
-                  // selected={isItemSelected}
-                  style={
-                    isItemSelected
-                      ? ({
-                          '--TableCell-dataBackground':
-                            'var(--TableCell-selectedBackground)',
-                          '--TableCell-headBackground':
-                            'var(--TableCell-selectedBackground)',
-                        } as React.CSSProperties)
-                      : {}
-                  }
-                >
-                  <td>{user.name}</td>
-                  <td>{user.surname}</td>
-                  <td>{user.email}</td>
-                  <td>{user.role}</td>
-                  <td>
-                    <Checkbox
-                      color="primary"
-                      label=""
-                      variant="solid"
-                      checked={user.isActive === 1}
-                    />
-                  </td>
-                  <td>
-                    {user.createdAt
-                      ? moment(user.createdAt).format('DD/MM/YYYY HH:mm')
-                      : 'Unkown'}
-                  </td>
-                  <td>
-                    {user.updatedAt
-                      ? moment(user.updatedAt).format('DD/MM/YYYY HH:mm')
-                      : 'Unkown'}
-                  </td>
-                  <td style={{ textAlign: 'center' }}>
-                    <Dropdown>
-                      <MenuButton>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth={1.5}
-                          stroke="black"
-                          className="size-6"
-                          width={24}
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-                          />
-                        </svg>
-                      </MenuButton>
-                      <Menu>
-                        <MenuItem onClick={() => copyIdToClipboard(user.id)}>
-                          Copiar ID
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => {
-                            dispatch({
-                              type: UserTableActions.UPDATE_USER,
-                              payload: {
-                                id: user.id,
-                                isActive: !user.isActive,
-                                users,
-                              },
-                            });
-                          }}
-                        >
-                          Activar/Desactivar
-                        </MenuItem>
-                        <ListDivider />
-                        <MenuItem
-                          onClick={() =>
-                            dispatch({
-                              type: UserTableActions.DELETE_USER,
-                              payload: { id: user.id, users },
-                            })
-                          }
-                          sx={{ color: 'red' }}
-                        >
-                          Eliminar
-                        </MenuItem>
-                      </Menu>
-                    </Dropdown>
-                  </td>
-                </tr>
-              );
-            },
-          )}
+          {(users as User[]).map(user => {
+            return (
+              <tr
+                tabIndex={-1}
+                key={user.id}
+                // selected={isItemSelected}
+              >
+                <td>{user.name}</td>
+                <td>{user.surname}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>
+                  <Checkbox
+                    color="primary"
+                    label=""
+                    variant="solid"
+                    checked={user.isActive}
+                  />
+                </td>
+                <td>
+                  {user.createdAt
+                    ? moment(user.createdAt).format('DD/MM/YYYY HH:mm')
+                    : 'Unkown'}
+                </td>
+                <td>
+                  {user.updatedAt
+                    ? moment(user.updatedAt).format('DD/MM/YYYY HH:mm')
+                    : 'Unkown'}
+                </td>
+                <td style={{ textAlign: 'center' }}>
+                  <Dropdown>
+                    <MenuButton>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="black"
+                        className="size-6"
+                        width={24}
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+                        />
+                      </svg>
+                    </MenuButton>
+                    <Menu>
+                      <MenuItem onClick={() => copyIdToClipboard(user.id)}>
+                        Copiar ID
+                      </MenuItem>
+                      <MenuItem
+                        onClick={() => {
+                          dispatch({
+                            type: UserTableActions.UPDATE_USER,
+                            payload: {
+                              id: user.id,
+                              isActive: !user.isActive,
+                              users,
+                            },
+                          });
+                        }}
+                      >
+                        Activar/Desactivar
+                      </MenuItem>
+                      <ListDivider />
+                      <MenuItem
+                        onClick={() =>
+                          dispatch({
+                            type: UserTableActions.DELETE_USER,
+                            payload: { id: user.id, users },
+                          })
+                        }
+                        sx={{ color: 'red' }}
+                      >
+                        Eliminar
+                      </MenuItem>
+                    </Menu>
+                  </Dropdown>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
         <tfoot>
           <tr>
@@ -432,7 +316,7 @@ const UserTableSort = ({ users }: { users: User[] }) => {
 
 const Pagination = () => {
   const dispatch = useDispatch();
-  const { page, maxPages } = useSelector((state: RootState) => state.userTable);
+  const { page, maxPages } = useSelector((state: RootState) => state.user);
 
   const [pages, setPages] = React.useState<React.ReactNode[]>([]);
 
@@ -441,24 +325,18 @@ const Pagination = () => {
       Array.from({ length: end - start + 1 }, (_, i) => start + i);
 
     const firstPages = generatePages(1, Math.min(3, maxPages));
-
-    // Últimos 3 botones
     const lastPages = generatePages(Math.max(maxPages - 2, 1), maxPages);
-
-    // Botones alrededor de la página actual
     const middlePages = generatePages(
       Math.max(page - 1, 1),
       Math.min(page + 1, maxPages),
     );
 
-    // Combina todos los conjuntos de botones y elimina duplicados
     const pagesSet = new Set([...firstPages, ...middlePages, ...lastPages]);
     const pages = Array.from(pagesSet).sort((a, b) => a - b);
 
     const buttons: React.ReactNode[] = [];
 
     for (let i = 0; i < pages.length; i++) {
-      // Agregar el primer botón
       buttons.push(
         <IconButton
           size="sm"
@@ -479,7 +357,6 @@ const Pagination = () => {
         </IconButton>,
       );
 
-      // Agregar "..." si hay un salto de más de 1 página
       if (i < pages.length - 1 && pages[i + 1] > pages[i] + 1) {
         buttons.push(
           <span key={`ellipsis-${i}`} style={{ margin: '0 5px' }}>
@@ -565,124 +442,3 @@ const Pagination = () => {
 };
 
 export default UserTableSort;
-
-// export function UsersTable({ users }: { users: User[] }) {
-//   const dispatch = useDispatch();
-//   const { pending, error } = useSelector((state: RootState) => state.userTable);
-
-//   const copyIdToClipboard = async (id: string) => {
-//     await navigator.clipboard.writeText(id);
-//   };
-
-//   return (
-//     <Sheet sx={{ borderRadius: 10 }}>
-//       {pending && <Loader />}
-//       {!pending && error && <p style={{ color: 'white' }}>{error}</p>}
-//       <Table
-//         sx={{
-//           bgcolor: 'gray',
-//         }}
-//         color="neutral"
-//         size="md"
-//       >
-//         <thead>
-//           <tr>
-//             <th>Nombre</th>
-//             <th>Apellido</th>
-//             <th>Email</th>
-//             <th>Rol</th>
-//             <th>Activo</th>
-//             <th>Fecha de creación</th>
-//             <th>Fecha de actualización</th>
-//             <th></th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {users.map(user => (
-//             <tr key={user.id} style={{ color: 'white' }}>
-//               <td
-//                 style={{ textTransform: 'capitalize' }}
-//                 onClick={() => copyIdToClipboard(user.id)}
-//               >
-//                 {user.name}
-//               </td>
-//               <td style={{ textTransform: 'capitalize' }}>{user.surname}</td>
-//               <td>{user.email}</td>
-//               <td style={{ textTransform: 'capitalize' }}>{user.role}</td>
-//               <td>
-//                 <Checkbox
-//                   color="primary"
-//                   label=""
-//                   variant="solid"
-//                   checked={user.isActive}
-//                 />
-//               </td>
-//               <td>
-//                 {user.createdAt
-//                   ? moment(user.createdAt).format('DD/MM/YYYY HH:mm')
-//                   : 'Unkown'}
-//               </td>
-//               <td>
-//                 {user.updatedAt
-//                   ? moment(user.updatedAt).format('DD/MM/YYYY HH:mm')
-//                   : 'Unkown'}
-//               </td>
-//               <td style={{ textAlign: 'center' }}>
-//                 <Dropdown>
-//                   <MenuButton>
-//                     <svg
-//                       xmlns="http://www.w3.org/2000/svg"
-//                       fill="none"
-//                       viewBox="0 0 24 24"
-//                       strokeWidth={1.5}
-//                       stroke="white"
-//                       className="size-6"
-//                       width={24}
-//                     >
-//                       <path
-//                         strokeLinecap="round"
-//                         strokeLinejoin="round"
-//                         d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
-//                       />
-//                     </svg>
-//                   </MenuButton>
-//                   <Menu>
-//                     <MenuItem onClick={() => copyIdToClipboard(user.id)}>
-//                       Copiar ID
-//                     </MenuItem>
-//                     <MenuItem
-//                       onClick={() => {
-//                         dispatch({
-//                           type: UserTableActions.UPDATE_USER,
-//                           payload: {
-//                             id: user.id,
-//                             isActive: !user.isActive,
-//                             users,
-//                           },
-//                         });
-//                       }}
-//                     >
-//                       Activar/Desactivar
-//                     </MenuItem>
-//                     <ListDivider />
-//                     <MenuItem
-//                       onClick={() =>
-//                         dispatch({
-//                           type: UserTableActions.DELETE_USER,
-//                           payload: { id: user.id, users },
-//                         })
-//                       }
-//                       sx={{ color: 'red' }}
-//                     >
-//                       Eliminar
-//                     </MenuItem>
-//                   </Menu>
-//                 </Dropdown>
-//               </td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </Table>
-//     </Sheet>
-//   );
-// }

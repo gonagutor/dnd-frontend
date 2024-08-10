@@ -1,4 +1,4 @@
 import { AuthAction } from './AuthAction';
-import { UserTableAction } from './UserTableAction';
+import { UserAction } from './UserTableAction';
 
-export type { AuthAction, UserTableAction };
+export type { AuthAction, UserAction };

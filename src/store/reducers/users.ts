@@ -1,28 +1,26 @@
-import UserTableActions from 'store/actions/userTable';
-import { UserTableAction } from 'types/actions';
-import { UserTableState } from 'types/states';
+import UserActions from 'store/actions/users';
+import { UserAction } from 'types/actions';
+import { UserState } from 'types/states';
 
 const initialState = {
   users: [],
   page: 1,
   maxPages: 1,
+  key: 'created_at',
+  sortOrder: 'DESC',
   error: undefined,
   pending: false,
 };
 
-const userTableReducer = (
-  state = initialState,
-  action: UserTableAction,
-): UserTableState => {
+const userReducer = (state = initialState, action: UserAction): UserState => {
   switch (action.type) {
-    case UserTableActions.INIT_TABLE:
-      console.log('INIT_TABLE', { state, action });
+    case UserActions.INIT_TABLE:
       return {
         ...state,
         pending: true,
         error: undefined,
       };
-    case UserTableActions.INIT_SUCCESS:
+    case UserActions.INIT_SUCCESS:
       return {
         ...state,
         pending: false,
@@ -30,52 +28,54 @@ const userTableReducer = (
         users: action.payload.users,
         page: action.payload.page,
         maxPages: action.payload.maxPages,
+        key: action.payload.key,
+        sortOrder: action.payload.sortOrder,
       };
-    case UserTableActions.INIT_FAILURE:
+    case UserActions.INIT_FAILURE:
       return {
         ...state,
         pending: false,
         error: action.payload.error,
       };
-    case UserTableActions.NEXT_PAGE:
+    case UserActions.NEXT_PAGE:
       return {
         ...state,
         page: action.payload.page,
         error: undefined,
       };
-    case UserTableActions.PREV_PAGE:
+    case UserActions.PREV_PAGE:
       return {
         ...state,
         page: action.payload.page,
         error: undefined,
       };
-    case UserTableActions.SELECT_PAGE:
+    case UserActions.SELECT_PAGE:
       return {
         ...state,
         page: action.payload.page,
         error: undefined,
       };
-    case UserTableActions.PAGINATION_FAILURE:
+    case UserActions.PAGINATION_FAILURE:
       return {
         ...state,
         error: action.payload.error,
       };
-    case UserTableActions.DELETE_USER:
+    case UserActions.DELETE_USER:
       return {
         ...state,
         users: action.payload.users,
       };
-    case UserTableActions.DELETE_USER_FAILURE:
+    case UserActions.DELETE_USER_FAILURE:
       return {
         ...state,
         error: action.payload.error,
       };
-    case UserTableActions.UPDATE_USER:
+    case UserActions.UPDATE_USER:
       return {
         ...state,
         users: action.payload.users,
       };
-    case UserTableActions.UPDATE_USER_FAILURE:
+    case UserActions.UPDATE_USER_FAILURE:
       return {
         ...state,
         error: action.payload.error,
@@ -86,4 +86,4 @@ const userTableReducer = (
   }
 };
 
-export default userTableReducer;
+export default userReducer;

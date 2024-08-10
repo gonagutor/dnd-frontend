@@ -1,4 +1,4 @@
 import { AuthState } from './AuthState';
-import { UserTableState } from './UserTableState';
+import { UserState } from './UserTableState';
 
-export type { AuthState, UserTableState };
+export type { AuthState, UserState };

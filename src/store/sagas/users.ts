@@ -1,24 +1,26 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { User } from 'services/user.service';
-import UserTableActions from 'store/actions/userTable';
-import { UserTableAction } from 'types/actions/UserTableAction';
+import UserActions from 'store/actions/users';
+import { UserAction } from 'types/actions/UserTableAction';
 
-function* initTableSaga(action: UserTableAction) {
-  const { page } = action.payload;
+function* initTableSaga(action: UserAction) {
+  const { page, key, sortOrder } = action.payload;
 
   try {
-    const data = yield call(User.getUsers, page || 1);
+    const data = yield call(User.getUsers, page || 1, key, sortOrder);
     yield put({
-      type: UserTableActions.INIT_SUCCESS,
+      type: UserActions.INIT_SUCCESS,
       payload: {
         users: data.users,
         page: data.pagination.page,
         maxPages: data.pagination.maxPages,
+        key: key ?? 'created_at',
+        sortOrder: sortOrder ?? 'DESC',
       },
     });
   } catch (error: unknown) {
     yield put({
-      type: UserTableActions.INIT_FAILURE,
+      type: UserActions.INIT_FAILURE,
       payload: {
         error: error instanceof Error ? error.message : 'An error occurred',
       },
@@ -26,12 +28,12 @@ function* initTableSaga(action: UserTableAction) {
   }
 }
 
-function* nextPage(action: UserTableAction) {
+function* nextPage(action: UserAction) {
   const { page, maxPages } = action.payload;
 
   if ((page ?? 1) > (maxPages ?? 1)) {
     return yield put({
-      type: UserTableActions.PAGINATION_FAILURE,
+      type: UserActions.PAGINATION_FAILURE,
       payload: {
         error: 'No more pages',
       },
@@ -39,19 +41,19 @@ function* nextPage(action: UserTableAction) {
   }
 
   yield put({
-    type: UserTableActions.INIT_TABLE,
+    type: UserActions.INIT_TABLE,
     payload: {
       page: page ?? 1,
     },
   });
 }
 
-function* prevPage(action: UserTableAction) {
+function* prevPage(action: UserAction) {
   const { page } = action.payload;
 
   if ((page ?? 1) <= 0) {
     return yield put({
-      type: UserTableActions.PAGINATION_FAILURE,
+      type: UserActions.PAGINATION_FAILURE,
       payload: {
         error: 'No more pages',
       },
@@ -59,19 +61,19 @@ function* prevPage(action: UserTableAction) {
   }
 
   yield put({
-    type: UserTableActions.INIT_TABLE,
+    type: UserActions.INIT_TABLE,
     payload: {
       page: page ?? 1,
     },
   });
 }
 
-function* selectPage(action: UserTableAction) {
+function* selectPage(action: UserAction) {
   const { page, maxPages } = action.payload;
 
   if ((page ?? 1) > (maxPages ?? 1) || (page ?? 1) <= 0) {
     return yield put({
-      type: UserTableActions.PAGINATION_FAILURE,
+      type: UserActions.PAGINATION_FAILURE,
       payload: {
         error: 'No more pages',
       },
@@ -79,18 +81,18 @@ function* selectPage(action: UserTableAction) {
   }
 
   yield put({
-    type: UserTableActions.INIT_TABLE,
+    type: UserActions.INIT_TABLE,
     payload: {
       page: page ?? 1,
     },
   });
 }
 
-function* deleteUser(action: UserTableAction) {
+function* deleteUser(action: UserAction) {
   const { id, users } = action.payload;
   if (!id || id === undefined) {
     return yield put({
-      type: UserTableActions.DELETE_USER_FAILURE,
+      type: UserActions.DELETE_USER_FAILURE,
       payload: {
         error: 'No user id provided',
       },
@@ -103,14 +105,14 @@ function* deleteUser(action: UserTableAction) {
     const newUsers = users?.filter(user => user.id !== id) ?? [];
 
     yield put({
-      type: UserTableActions.INIT_TABLE,
+      type: UserActions.INIT_TABLE,
       payload: {
         users: newUsers,
       },
     });
   } catch (error: unknown) {
     yield put({
-      type: UserTableActions.DELETE_USER_FAILURE,
+      type: UserActions.DELETE_USER_FAILURE,
       payload: {
         error: error instanceof Error ? error.message : 'An error occurred',
       },
@@ -118,12 +120,12 @@ function* deleteUser(action: UserTableAction) {
   }
 }
 
-function* updateUserState(action: UserTableAction) {
+function* updateUserState(action: UserAction) {
   const { id, isActive, users } = action.payload;
 
   if (!id || id === undefined || isActive === undefined) {
     return yield put({
-      type: UserTableActions.UPDATE_USER_FAILURE,
+      type: UserActions.UPDATE_USER_FAILURE,
       payload: {
         error: 'No user id provided or isActive is not defined',
       },
@@ -138,14 +140,14 @@ function* updateUserState(action: UserTableAction) {
     );
 
     yield put({
-      type: UserTableActions.INIT_TABLE,
+      type: UserActions.INIT_TABLE,
       payload: {
         users: newUsers,
       },
     });
   } catch (error: unknown) {
     yield put({
-      type: UserTableActions.UPDATE_USER_FAILURE,
+      type: UserActions.UPDATE_USER_FAILURE,
       payload: {
         error: error instanceof Error ? error.message : 'An error occurred',
       },
@@ -153,13 +155,13 @@ function* updateUserState(action: UserTableAction) {
   }
 }
 
-export function* userTableSaga() {
+export function* userSaga() {
   yield all([
-    takeLatest(UserTableActions.INIT_TABLE, initTableSaga),
-    takeLatest(UserTableActions.NEXT_PAGE, nextPage),
-    takeLatest(UserTableActions.PREV_PAGE, prevPage),
-    takeLatest(UserTableActions.SELECT_PAGE, selectPage),
-    takeLatest(UserTableActions.DELETE_USER, deleteUser),
-    takeLatest(UserTableActions.UPDATE_USER, updateUserState),
+    takeLatest(UserActions.INIT_TABLE, initTableSaga),
+    takeLatest(UserActions.NEXT_PAGE, nextPage),
+    takeLatest(UserActions.PREV_PAGE, prevPage),
+    takeLatest(UserActions.SELECT_PAGE, selectPage),
+    takeLatest(UserActions.DELETE_USER, deleteUser),
+    takeLatest(UserActions.UPDATE_USER, updateUserState),
   ]);
 }

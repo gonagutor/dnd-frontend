@@ -1,10 +1,10 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import auth from 'store/reducers/auth';
-import userTable from 'store/reducers/userTable';
+import user from 'store/reducers/users';
 
 const rootReducer = combineReducers({
   auth: auth,
-  userTable: userTable,
+  user: user,
 });
 
 export default rootReducer;

@@ -1,4 +1,4 @@
-const UserTableActions = {
+const UserActions = {
   INIT_TABLE: 'INIT_TABLE',
   INIT_SUCCESS: 'INIT_SUCCESS',
   NEXT_PAGE: 'NEXT_PAGE',
@@ -13,4 +13,4 @@ const UserTableActions = {
   UPDATE_USER_FAILURE: 'UPDATE_USER_FAILURE',
 };
 
-export default UserTableActions;
+export default UserActions;

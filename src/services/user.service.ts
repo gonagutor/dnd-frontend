@@ -1,7 +1,7 @@
 import { AxiosError } from 'axios';
 import { request } from 'utils/axios';
 import { API_ROUTES } from 'utils/constants';
-import { getAccessToken, getRefreshToken } from 'utils/credentials';
+import { getAccessToken } from 'utils/credentials';
 
 export class User {
   id: string;
@@ -28,7 +28,7 @@ export class User {
     this.updatedAt = user.updatedAt;
   }
 
-  static async getUsers(page: number) {
+  static async getUsers(page: number, key?: string, sortOrder?: string) {
     const accessToken = getAccessToken();
     if (!accessToken) {
       throw new Error('No access token found');
@@ -38,6 +38,8 @@ export class User {
       const response = await request.get(API_ROUTES.USERS, {
         params: {
           page,
+          key,
+          sortOrder,
         },
         headers: {
           Authorization: `Bearer ${accessToken}`,
