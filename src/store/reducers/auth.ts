@@ -58,7 +58,8 @@ const authReducer = (
         accessToken: action.payload.accessToken,
       };
 
-    case (AuthActions.REFRESH_TOKEN_REVOKED, AuthActions.LOGOUT):
+    case AuthActions.LOGOUT:
+    case AuthActions.REFRESH_TOKEN_REVOKED:
       return {
         ...state,
         isLoggedIn: false,
