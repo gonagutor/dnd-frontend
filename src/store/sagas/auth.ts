@@ -3,10 +3,11 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import AuthActions from 'store/actions/auth';
 import { AuthAction } from 'types/actions';
 import { request } from 'utils/axios';
+import constants from 'utils/constants';
 import { saveCredentials, clearCredentials } from 'utils/credentials';
 
 const login = (email: string, password: string) =>
-  request.post('/login', { email, password });
+  request.post(constants.ENDPOINTS.login, { email, password });
 
 function* loginSaga(action: AuthAction) {
   const { email, password, rememberMe } = action.payload;
@@ -53,7 +54,7 @@ function* loginSaga(action: AuthAction) {
 
 const refreshToken = (refreshToken: string) =>
   request.post(
-    '/refresh',
+    constants.REFRESH_TOKEN,
     {},
     {
       headers: {
