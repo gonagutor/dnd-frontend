@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { request } from 'utils/axios';
-import { API_ROUTES } from 'utils/constants';
+import constants from 'utils/constants';
 import { getAccessToken } from 'utils/credentials';
 
 export class User {
@@ -35,7 +35,7 @@ export class User {
     }
 
     try {
-      const response = await request.get(API_ROUTES.USERS, {
+      const response = await request.get(constants.ENDPOINTS.users, {
         params: {
           page,
           key,
