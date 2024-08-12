@@ -1,7 +1,6 @@
 import { AxiosError } from 'axios';
 import { request } from 'utils/axios';
 import constants from 'utils/constants';
-import { getAccessToken } from 'utils/credentials';
 
 export class User {
   id: string;
