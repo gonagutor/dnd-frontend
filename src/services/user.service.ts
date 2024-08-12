@@ -29,20 +29,12 @@ export class User {
   }
 
   static async getUsers(page: number, key?: string, sortOrder?: string) {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error('No access token found');
-    }
-
     try {
       const response = await request.get(constants.ENDPOINTS.users, {
         params: {
           page,
           key,
           sortOrder,
-        },
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
         },
       });
 
@@ -61,19 +53,9 @@ export class User {
   }
 
   static async deleteUser(id: string) {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error('No access token found');
-    }
-
     try {
       const response = await request.delete(
         `${constants.ENDPOINTS.users}/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
       );
       return response.data;
     } catch (error: unknown) {
@@ -86,23 +68,10 @@ export class User {
   }
 
   static async updateUserState(id: string, isActive: boolean) {
-    const accessToken = getAccessToken();
-    if (!accessToken) {
-      throw new Error('No access token found');
-    }
-
     try {
-      const response = await request.put(
-        `${constants.ENDPOINTS.users}/${id}`,
-        {
-          IsActive: isActive,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        },
-      );
+      const response = await request.put(`${constants.ENDPOINTS.users}/${id}`, {
+        IsActive: isActive,
+      });
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {

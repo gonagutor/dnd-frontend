@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { request } from 'utils/axios';
+import constants from 'utils/constants';
 
 export default function useRegister() {
   const { t } = useTranslation('errors');
@@ -18,7 +19,7 @@ export default function useRegister() {
     setCompleted(false);
     setPending(true);
     request
-      .post('/register', {
+      .post(constants.ENDPOINTS.register, {
         name,
         surname,
         email,

@@ -7,8 +7,6 @@ export type AuthAction = {
     email?: string;
     password?: string;
     user?: User;
-    refreshToken?: string;
-    accessToken?: string;
     rememberMe?: boolean;
     error?: string;
   };
