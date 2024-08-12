@@ -49,3 +49,6 @@ export const getRefreshToken = () =>
   sessionStorage.getItem(constants.REFRESH_TOKEN) ??
   localStorage.getItem(constants.REFRESH_TOKEN) ??
   undefined;
+
+export const userHasSelectedRemberme = () =>
+  !!localStorage.getItem(constants.ACCESS_TOKEN);

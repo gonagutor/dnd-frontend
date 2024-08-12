@@ -38,43 +38,21 @@ const userReducer = (state = initialState, action: UserAction): UserState => {
         error: action.payload.error,
       };
     case UserActions.NEXT_PAGE:
-      return {
-        ...state,
-        page: action.payload.page,
-        error: undefined,
-      };
     case UserActions.PREV_PAGE:
-      return {
-        ...state,
-        page: action.payload.page,
-        error: undefined,
-      };
     case UserActions.SELECT_PAGE:
       return {
         ...state,
         page: action.payload.page,
         error: undefined,
       };
-    case UserActions.PAGINATION_FAILURE:
-      return {
-        ...state,
-        error: action.payload.error,
-      };
     case UserActions.DELETE_USER:
       return {
         ...state,
         users: action.payload.users,
       };
+    case UserActions.PAGINATION_FAILURE:
     case UserActions.DELETE_USER_FAILURE:
-      return {
-        ...state,
-        error: action.payload.error,
-      };
     case UserActions.UPDATE_USER:
-      return {
-        ...state,
-        users: action.payload.users,
-      };
     case UserActions.UPDATE_USER_FAILURE:
       return {
         ...state,

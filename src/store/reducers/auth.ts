@@ -17,8 +17,6 @@ const generateDefaultState = (): AuthState => {
     return {
       isLoggedIn: true,
       user,
-      accessToken,
-      refreshToken,
     };
   }
 
@@ -54,31 +52,13 @@ const authReducer = (
         pending: false,
         error: undefined,
         user: action.payload.user,
-        refreshToken: action.payload.refreshToken,
-        accessToken: action.payload.accessToken,
       };
-
     case AuthActions.LOGOUT:
-    case AuthActions.REFRESH_TOKEN_REVOKED:
       return {
         ...state,
         isLoggedIn: false,
         pending: false,
         user: undefined,
-        accessToken: undefined,
-        refreshToken: undefined,
-      };
-    case AuthActions.TOKEN_NEEDS_REFRESH:
-      return {
-        ...state,
-        pending: true,
-        accessToken: undefined,
-      };
-    case AuthActions.TOKEN_REFRESHED:
-      return {
-        ...state,
-        pending: false,
-        accessToken: action.payload.accessToken,
       };
 
     default:

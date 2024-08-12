@@ -38,8 +38,6 @@ function* loginSaga(action: AuthAction) {
     yield put({
       type: AuthActions.LOGIN_SUCCESS,
       payload: {
-        accessToken: response.data.data.accessToken,
-        refreshToken: response.data.data.refreshToken,
         user: response.data.data.user,
       },
     });
@@ -52,51 +50,6 @@ function* loginSaga(action: AuthAction) {
   }
 }
 
-const refreshToken = (refreshToken: string) =>
-  request.post(
-    constants.REFRESH_TOKEN,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${refreshToken}`,
-      },
-    },
-  );
-
-function* needsRefreshSaga(action: AuthAction) {
-  if (!action.payload.refreshToken) {
-    console.log('Badly implemented login Saga', { action });
-    return yield put({
-      type: AuthActions.LOGIN_FAILURE,
-      payload: {
-        error: 'BAD_IMPLEMENTATION',
-      },
-    });
-  }
-
-  try {
-    const response: AxiosResponse<any, any> = yield call(
-      refreshToken,
-      action.payload.refreshToken,
-    );
-
-    yield put({
-      type: AuthActions.TOKEN_REFRESHED,
-      payload: {
-        accessToken: response.data.data.accessToken,
-      },
-    });
-  } catch (e: any) {
-    yield put({
-      type: AuthActions.REFRESH_TOKEN_REVOKED,
-      error: e.response?.data.error || 'CONNECTION_ERROR',
-    });
-  }
-}
-
 export function* authSaga() {
-  yield all([
-    takeLatest(AuthActions.LOGIN, loginSaga),
-    takeLatest(AuthActions.TOKEN_NEEDS_REFRESH, needsRefreshSaga),
-  ]);
+  yield all([takeLatest(AuthActions.LOGIN, loginSaga)]);
 }

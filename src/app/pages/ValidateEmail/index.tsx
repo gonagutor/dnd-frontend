@@ -5,6 +5,7 @@ import { request } from 'utils/axios';
 import ValidationComplete from './components/ValidationComplete';
 import ValidationFailed from './components/ValidationFailed';
 import Loader from 'app/components/Loader';
+import constants from 'utils/constants';
 
 let didInit = false;
 export default function ValidateEmail() {
@@ -19,7 +20,7 @@ export default function ValidateEmail() {
 
     const token = new URLSearchParams(search).get('token');
     request
-      .get(`/validate-email?token=${token}`)
+      .get(`${constants.ENDPOINTS.validateEmail}?token=${token}`)
       .then(result => setResult(result.data.code))
       .catch(error => setError(t(error.response.data.error)));
   });
