@@ -1,0 +1,89 @@
+import UserActions from 'store/actions/users';
+import { UserAction } from 'types/actions';
+import { UserState } from 'types/states';
+
+const initialState = {
+  users: [],
+  page: 1,
+  maxPages: 1,
+  key: 'created_at',
+  sortOrder: 'DESC',
+  error: undefined,
+  pending: false,
+};
+
+const userReducer = (state = initialState, action: UserAction): UserState => {
+  switch (action.type) {
+    case UserActions.INIT_TABLE:
+      return {
+        ...state,
+        pending: true,
+        error: undefined,
+      };
+    case UserActions.INIT_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        error: undefined,
+        users: action.payload.users,
+        page: action.payload.page,
+        maxPages: action.payload.maxPages,
+        key: action.payload.key,
+        sortOrder: action.payload.sortOrder,
+      };
+    case UserActions.INIT_FAILURE:
+      return {
+        ...state,
+        pending: false,
+        error: action.payload.error,
+      };
+    case UserActions.NEXT_PAGE:
+      return {
+        ...state,
+        page: action.payload.page,
+        error: undefined,
+      };
+    case UserActions.PREV_PAGE:
+      return {
+        ...state,
+        page: action.payload.page,
+        error: undefined,
+      };
+    case UserActions.SELECT_PAGE:
+      return {
+        ...state,
+        page: action.payload.page,
+        error: undefined,
+      };
+    case UserActions.PAGINATION_FAILURE:
+      return {
+        ...state,
+        error: action.payload.error,
+      };
+    case UserActions.DELETE_USER:
+      return {
+        ...state,
+        users: action.payload.users,
+      };
+    case UserActions.DELETE_USER_FAILURE:
+      return {
+        ...state,
+        error: action.payload.error,
+      };
+    case UserActions.UPDATE_USER:
+      return {
+        ...state,
+        users: action.payload.users,
+      };
+    case UserActions.UPDATE_USER_FAILURE:
+      return {
+        ...state,
+        error: action.payload.error,
+      };
+    default:
+      console.log('default', { state, action });
+      return state;
+  }
+};
+
+export default userReducer;

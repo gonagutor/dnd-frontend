@@ -5,6 +5,7 @@ const USER = 'USER';
 const MOBILE_BREAKPOINT = 640;
 
 const ENDPOINTS = {
+  users: '/user',
   login: '/v1/auth/login',
   register: '/v1/auth/register',
   refresh: '/v1/auth/refresh',

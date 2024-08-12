@@ -1,0 +1,39 @@
+import * as React from 'react';
+import { DashboardPage } from 'admin/components/DashboardPage';
+import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'types';
+import UserTableSort from 'admin/components/UsersTable';
+import UserTableActions from 'store/actions/users';
+import Loader from 'app/components/Loader';
+
+const Container = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  padding-right: 1rem;
+  gap: 1rem;
+`;
+
+export function UsersList() {
+  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+
+  const dispatch = useDispatch();
+  const { pending, error } = useSelector((state: RootState) => state.user);
+
+  React.useEffect(() => {
+    if (!isLoggedIn) return;
+
+    dispatch({ type: UserTableActions.INIT_TABLE, payload: { page: 1 } });
+  }, [dispatch, isLoggedIn]);
+
+  return (
+    <DashboardPage currentPage="users">
+      <Container>
+        {!isLoggedIn && <p>Acceso restringido</p>}
+        {pending && <Loader />}
+        {!pending && error && <p style={{ color: 'white' }}>{error}</p>}
+        <UserTableSort />
+      </Container>
+    </DashboardPage>
+  );
+}

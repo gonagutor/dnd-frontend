@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import '@fontsource/inter';
 
 import { Index } from './pages/Index/Loadable';
+import { UsersList } from './pages/UsersList';
 
 export function Admin() {
   const { i18n } = useTranslation();
@@ -31,7 +32,8 @@ export function Admin() {
 
       <Routes>
         <Route index element={<Index />} />
-        <Route path="/test" element={<h2>test</h2>} />
+        <Route path="/index" element={<h2>test</h2>} />
+        <Route path="/user" element={<UsersList />} />
       </Routes>
     </>
   );
