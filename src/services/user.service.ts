@@ -67,11 +67,14 @@ export class User {
     }
 
     try {
-      const response = await request.delete(`${constants.ENDPOINTS.users}/${id}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      const response = await request.delete(
+        `${constants.ENDPOINTS.users}/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         },
-      });
+      );
       return response.data;
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
