@@ -67,7 +67,7 @@ export class User {
     }
 
     try {
-      const response = await request.delete(`${API_ROUTES.USERS}/${id}`, {
+      const response = await request.delete(`${constants.ENDPOINTS.users}/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -90,7 +90,7 @@ export class User {
 
     try {
       const response = await request.put(
-        `${API_ROUTES.USERS}/${id}`,
+        `${constants.ENDPOINTS.users}/${id}`,
         {
           IsActive: isActive,
         },
