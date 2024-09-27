@@ -13,7 +13,7 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
 //Import routes
-import { Router } from 'common/router';
+import { Router } from 'router';
 
 // Use consistent styling
 import 'sanitize.css/sanitize.css';
@@ -21,7 +21,7 @@ import { HelmetProvider } from 'react-helmet-async';
 
 import { configureAppStore } from 'common/store/configureStore';
 
-import reportWebVitals from 'common/reportWebVitals';
+import reportWebVitals from 'reportWebVitals';
 
 // Initialize languages
 import 'common/locales/i18n';
