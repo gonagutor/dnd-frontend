@@ -1,12 +1,12 @@
-import AuthActions from 'store/actions/auth';
-import { AuthAction } from 'types/actions';
-import { AuthState } from 'types/states';
+import AuthActions from 'common/store/actions/auth';
+import { AuthAction } from 'common/types/actions';
+import { AuthState } from 'common/types/states';
 import {
   clearCredentials,
   getAccessToken,
   getRefreshToken,
   getUser,
-} from 'utils/credentials';
+} from 'common/utils/credentials';
 
 const generateDefaultState = (): AuthState => {
   const user = getUser();

@@ -1,4 +1,4 @@
-import { lazyLoad } from 'utils/loadable';
+import { lazyLoad } from 'common/utils/loadable';
 
 export const Dashboard = lazyLoad(
   () => import('./index'),

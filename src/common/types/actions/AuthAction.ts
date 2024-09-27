@@ -1,5 +1,5 @@
-import AuthActions from 'store/actions/auth';
-import { User } from 'types/User';
+import AuthActions from 'common/store/actions/auth';
+import { User } from 'common/types/User';
 
 export type AuthAction = {
   type: keyof typeof AuthActions;

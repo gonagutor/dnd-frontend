@@ -1,9 +1,9 @@
 import { createGlobalStyle } from 'styled-components';
-import AsphaltLightTexture from '../app/assets/textures/asfalt-light.png';
-import BedgeGrungeTexture from '../app/assets/textures/bedge-grunge.png';
-import BeigePaperTexture from '../app/assets/textures/beige-paper.png';
-import BlackFeltTexture from '../app/assets/textures/black-felt.png';
-import GravelTexture from '../app/assets/textures/gravel.png';
+import AsphaltLightTexture from '../../app/assets/textures/asfalt-light.png';
+import BedgeGrungeTexture from '../../app/assets/textures/bedge-grunge.png';
+import BeigePaperTexture from '../../app/assets/textures/beige-paper.png';
+import BlackFeltTexture from '../../app/assets/textures/black-felt.png';
+import GravelTexture from '../../app/assets/textures/gravel.png';
 
 export const GlobalStyle = createGlobalStyle`
   :root{

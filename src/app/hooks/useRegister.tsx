@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { request } from 'utils/axios';
-import constants from 'utils/constants';
+import { request } from 'common/utils/axios';
+import constants from 'common/utils/constants';
 
 export default function useRegister() {
   const { t } = useTranslation('errors');

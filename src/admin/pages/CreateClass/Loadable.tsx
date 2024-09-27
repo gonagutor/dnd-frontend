@@ -1,6 +1,6 @@
 import { lazyLoad } from 'common/utils/loadable';
 
-export const Index = lazyLoad(
+export const CreateClass = lazyLoad(
   () => import('./index'),
-  module => module.Index,
+  module => module.CreateClass,
 );

@@ -1,33 +1,10 @@
 import { AxiosError } from 'axios';
-import { request } from 'utils/axios';
-import constants from 'utils/constants';
+import { User } from 'common/models/user.model';
+import { request } from 'common/utils/axios';
+import constants from 'common/utils/constants';
 
-export class User {
-  id: string;
-  email: string;
-  name: string;
-  surname: string;
-  role: string;
-  profilePicture?: string;
-  isActive: boolean;
-  deletedAt?: string;
-  createdAt?: string;
-  updatedAt?: string;
-
-  constructor(user: any) {
-    this.id = user.id;
-    this.email = user.email;
-    this.name = user.name;
-    this.surname = user.surname;
-    this.role = user.role;
-    this.profilePicture = user.profilePicture;
-    this.isActive = user.isActive;
-    this.deletedAt = user.deletedAt;
-    this.createdAt = user.createdAt;
-    this.updatedAt = user.updatedAt;
-  }
-
-  static async getUsers(page: number, key?: string, sortOrder?: string) {
+export class UserService {
+  static async getMany(page: number, key?: string, sortOrder?: string) {
     try {
       const response = await request.get(constants.ENDPOINTS.users, {
         params: {
@@ -51,7 +28,7 @@ export class User {
     }
   }
 
-  static async deleteUser(id: string) {
+  static async getOne(id: string) {
     try {
       const response = await request.delete(
         `${constants.ENDPOINTS.users}/${id}`,
@@ -79,5 +56,9 @@ export class User {
 
       throw new Error('An error occurred');
     }
+  }
+
+  static async deleteUser(id: string) {
+    // TODO: Implement
   }
 }

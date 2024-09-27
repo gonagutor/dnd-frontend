@@ -1,5 +1,5 @@
-import { User } from 'services/user.service';
-import UserTableActions from 'store/actions/users';
+import { User } from 'common/models/user.model';
+import UserTableActions from 'common/store/actions/users';
 
 export type UserAction = {
   type: keyof typeof UserTableActions;

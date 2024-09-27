@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios';
 import * as React from 'react';
-import { User } from 'services/user.service';
+import { UserService } from 'common/services/user.service';
+import { User } from 'common/models/user.model';
 
 const useGetUsers = async (page: number) => {
   const [users, setUsers] = React.useState<User[]>([]);
@@ -13,7 +14,7 @@ const useGetUsers = async (page: number) => {
     setUsers([]);
 
     try {
-      const data = await User.getUsers(page);
+      const data = await UserService.getMany(page);
       setUsers(data?.users || []);
     } catch (error: unknown) {
       if (error instanceof AxiosError) {

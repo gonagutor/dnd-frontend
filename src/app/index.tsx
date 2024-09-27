@@ -11,12 +11,12 @@ import { Homebrew } from './pages/Homebrew/Loadable';
 import { Settings } from './pages/Settings/Loadable';
 import { Campaign } from './pages/Campaign/Loadable';
 import { useSelector } from 'react-redux';
-import { RootState } from 'types';
+import { RootState } from 'common/types';
 import ValidateEmail from './pages/ValidateEmail';
 import { RedeemPasswordRecovery } from './pages/RecoverPassword/Redeem';
 import { RequestPasswordRecovery } from './pages/RecoverPassword/Request';
 import { NotFound } from './pages/NotFound';
-import { GlobalStyle } from 'styles/global-styles';
+import { GlobalStyle } from 'common/styles/global-styles';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 

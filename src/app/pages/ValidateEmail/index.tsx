@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { request } from 'utils/axios';
+import { request } from 'common/utils/axios';
 import ValidationComplete from './components/ValidationComplete';
 import ValidationFailed from './components/ValidationFailed';
 import Loader from 'app/components/Loader';
-import constants from 'utils/constants';
+import constants from 'common/utils/constants';
 
 let didInit = false;
 export default function ValidateEmail() {

@@ -1,10 +1,10 @@
 import { AxiosResponse } from 'axios';
 import { all, call, put, takeLatest } from 'redux-saga/effects';
-import AuthActions from 'store/actions/auth';
-import { AuthAction } from 'types/actions';
-import { request } from 'utils/axios';
-import constants from 'utils/constants';
-import { saveCredentials, clearCredentials } from 'utils/credentials';
+import AuthActions from 'common/store/actions/auth';
+import { AuthAction } from 'common/types/actions';
+import { request } from 'common/utils/axios';
+import constants from 'common/utils/constants';
+import { saveCredentials, clearCredentials } from 'common/utils/credentials';
 
 const login = (email: string, password: string) =>
   request.post(constants.ENDPOINTS.login, { email, password });

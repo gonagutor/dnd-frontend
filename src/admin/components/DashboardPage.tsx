@@ -8,7 +8,7 @@ import PlaceholderUser from 'admin/assets/placeholder-user.svg';
 import { MenuDesktop } from 'admin/components/Menu/MenuDesktop';
 import { MenuMobile } from 'admin/components/Menu/MenuMobile';
 import { useWindowSize } from 'common/hooks/useWindowSize';
-import constants from 'utils/constants';
+import constants from 'common/utils/constants';
 
 const Container = styled.div`
   position: relative;
@@ -73,10 +73,10 @@ const ProfilePic = styled.img`
 export function DashboardPage({
   children,
   currentPage,
-}: {
+}: Readonly<{
   children: JSX.Element;
   currentPage: string;
-}) {
+}>) {
   const { t } = useTranslation('admin');
   const { width } = useWindowSize();
 
@@ -84,7 +84,10 @@ export function DashboardPage({
     <Container>
       {width < constants.MOBILE_BREAKPOINT ? <MenuMobile /> : <MenuDesktop />}
       <div
-        style={{ marginLeft: width < constants.MOBILE_BREAKPOINT ? 0 : '8rem' }}
+        style={{
+          marginLeft: width < constants.MOBILE_BREAKPOINT ? 0 : '8rem',
+          color: 'white',
+        }}
       >
         <Header>
           {width > constants.MOBILE_BREAKPOINT && (

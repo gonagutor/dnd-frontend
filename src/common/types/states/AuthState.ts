@@ -1,4 +1,4 @@
-import { User } from '../User';
+import { User } from 'common/models/user.model';
 
 export type AuthState = {
   isLoggedIn: boolean;

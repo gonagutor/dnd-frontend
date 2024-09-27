@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Route, Navigate, Routes } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
-import { RootState } from 'types';
+import { RootState } from 'common/types';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
@@ -10,6 +10,7 @@ import '@fontsource/inter';
 
 import { Index } from './pages/Index/Loadable';
 import { UsersList } from './pages/UsersList';
+import { CreateClass } from './pages/CreateClass';
 
 export function Admin() {
   const { i18n } = useTranslation();
@@ -34,6 +35,7 @@ export function Admin() {
         <Route index element={<Index />} />
         <Route path="/index" element={<h2>test</h2>} />
         <Route path="/user" element={<UsersList />} />
+        <Route path="/class/create" element={<CreateClass />} />
       </Routes>
     </>
   );

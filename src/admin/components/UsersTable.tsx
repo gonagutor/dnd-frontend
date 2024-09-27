@@ -1,12 +1,6 @@
 import * as React from 'react';
 import Table from '@mui/joy/Table';
 import Checkbox from '@mui/joy/Checkbox';
-import { User } from 'services/user.service';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'types';
-import Loader from 'app/components/Loader';
-import UserTableActions from 'store/actions/users';
-import moment from 'moment';
 import {
   Box,
   Dropdown,
@@ -18,6 +12,12 @@ import {
   MenuItem,
   Sheet,
 } from '@mui/joy';
+import moment from 'moment';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'common/types';
+import Loader from 'app/components/Loader';
+import UserTableActions from 'common/store/actions/users';
+import { User } from 'common/models/user.model';
 
 const headCells = [
   {

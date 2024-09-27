@@ -2,9 +2,9 @@ import * as React from 'react';
 import { DashboardPage } from 'admin/components/DashboardPage';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'types';
+import { RootState } from 'common/types';
 import UserTableSort from 'admin/components/UsersTable';
-import UserTableActions from 'store/actions/users';
+import UserTableActions from 'common/store/actions/users';
 import Loader from 'app/components/Loader';
 
 const Container = styled.div`

@@ -1,4 +1,4 @@
-import { lazyLoad } from 'utils/loadable';
+import { lazyLoad } from 'common/utils/loadable';
 
 export const CharacterView = lazyLoad(
   () => import('./index'),

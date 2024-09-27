@@ -1,13 +1,13 @@
 import { all, call, put, takeLatest } from 'redux-saga/effects';
-import { User } from 'services/user.service';
-import UserActions from 'store/actions/users';
-import { UserAction } from 'types/actions/UserTableAction';
+import { UserService } from 'common/services/user.service';
+import UserActions from 'common/store/actions/users';
+import { UserAction } from 'common/types/actions/UserTableAction';
 
 function* initTableSaga(action: UserAction) {
   const { page, key, sortOrder } = action.payload;
 
   try {
-    const data = yield call(User.getUsers, page || 1, key, sortOrder);
+    const data = yield call(UserService.getMany, page ?? 1, key, sortOrder);
     yield put({
       type: UserActions.INIT_SUCCESS,
       payload: {
@@ -100,7 +100,7 @@ function* deleteUser(action: UserAction) {
   }
 
   try {
-    yield call(User.deleteUser, id);
+    yield call(UserService.getOne, id);
 
     const newUsers = users?.filter(user => user.id !== id) ?? [];
 
@@ -133,7 +133,7 @@ function* updateUserState(action: UserAction) {
   }
 
   try {
-    yield call(User.updateUserState, id, isActive);
+    yield call(UserService.updateUserState, id, isActive);
 
     const newUsers = users?.map(user =>
       user.id === id ? { ...user, isActive } : user,

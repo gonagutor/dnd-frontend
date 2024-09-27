@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import { request } from 'utils/axios';
+import { request } from 'common/utils/axios';
 
 export default function useRequestPasswordRecovery() {
   const { t } = useTranslation('errors');

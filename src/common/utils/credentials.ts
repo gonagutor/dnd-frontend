@@ -1,4 +1,4 @@
-import { User } from 'types';
+import { User } from 'common/models/user.model';
 import constants from './constants';
 
 export const saveCredentials = (

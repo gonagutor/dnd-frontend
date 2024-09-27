@@ -13,18 +13,18 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 
 //Import routes
-import { Router } from 'router';
+import { Router } from 'common/router';
 
 // Use consistent styling
 import 'sanitize.css/sanitize.css';
 import { HelmetProvider } from 'react-helmet-async';
 
-import { configureAppStore } from 'store/configureStore';
+import { configureAppStore } from 'common/store/configureStore';
 
-import reportWebVitals from 'reportWebVitals';
+import reportWebVitals from 'common/reportWebVitals';
 
 // Initialize languages
-import './locales/i18n';
+import 'common/locales/i18n';
 
 const store = configureAppStore();
 const root = ReactDOM.createRoot(
@@ -43,7 +43,7 @@ root.render(
 
 // Hot reloadable translation json files
 if (module.hot) {
-  module.hot.accept(['./locales/i18n'], () => {
+  module.hot.accept(['./common/locales/i18n'], () => {
     // No need to render the App again because i18next works with the hooks
   });
 }

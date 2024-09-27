@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import React from 'react';
-import { User } from 'services/user.service';
+import { UserService } from 'common/services/user.service';
 
 const useDeleteUser = (id: string) => {
   const [completed, setCompleted] = React.useState(false);
@@ -13,7 +13,7 @@ const useDeleteUser = (id: string) => {
     setError(undefined);
 
     try {
-      await User.deleteUser(id);
+      await UserService.deleteUser(id);
     } catch (error: unknown) {
       if (error instanceof AxiosError) {
         setError(error.response?.data.message);

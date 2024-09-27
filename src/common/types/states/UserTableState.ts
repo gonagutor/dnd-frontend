@@ -1,4 +1,4 @@
-import { User } from 'services/user.service';
+import { User } from 'common/models/user.model';
 
 export type UserState = {
   page?: number;

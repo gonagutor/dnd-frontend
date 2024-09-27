@@ -7,9 +7,9 @@ import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import AuthActions from 'store/actions/auth';
+import AuthActions from 'common/store/actions/auth';
 import styled from 'styled-components';
-import { RootState } from 'types';
+import { RootState } from 'common/types';
 
 const EMAIL_REGEX = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$$/;
 
@@ -103,7 +103,7 @@ export function Login() {
               type="email"
               autoComplete="email"
             ></Input>
-            <Error>{emailError}</Error>
+            <ErrorNotice>{emailError}</ErrorNotice>
           </Label>
 
           <Label>
@@ -132,7 +132,7 @@ export function Login() {
               type="password"
               autoComplete="new-password"
             ></Input>
-            <Error>{passwordError}</Error>
+            <ErrorNotice>{passwordError}</ErrorNotice>
           </Label>
 
           <Checkbox
@@ -220,7 +220,7 @@ const Input = styled.input<{ error?: boolean }>`
       : `margin: calc(0.5rem + 2px) 2px 2px 2px; border: none;`}
 `;
 
-const Error = styled.span`
+const ErrorNotice = styled.span`
   display: inline-block;
 
   color: var(--error);

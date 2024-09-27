@@ -1,6 +1,6 @@
-import UserActions from 'store/actions/users';
-import { UserAction } from 'types/actions';
-import { UserState } from 'types/states';
+import UserActions from 'common/store/actions/users';
+import { UserAction } from 'common/types/actions';
+import { UserState } from 'common/types/states';
 
 const initialState = {
   users: [],
